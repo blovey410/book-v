@@ -8,45 +8,28 @@ const router = createRouter({
 		{
 			path: "/",
 			name: "/",
-			component: () => import("@/views/book/index.vue"),
-			// redirect: "/home",
-			// children: [
-			// 	{
-			// 		path: "/home",
-			// 		name: "home",
-			// 		component: () => import("@/views/book/home/home.vue"),
-			// 	},
-			// 	{
-			// 		path: "/tags",
-			// 		name: "tags",
-			// 		component: () => import("@/views/book/tags/tags.vue"),
-			// 	},
-			// 	{
-			// 		path: "/me",
-			// 		name: "me",
-			// 		component: () => import("@/views/book/me/me.vue"),
-			// 	},
-			// 	{
-			// 		path: "/detail",
-			// 		name: "detail",
-			// 		component: () => import("@/views/book/detail/detail.vue"),
-			// 	},
-			// 	{
-			// 		path: "/message",
-			// 		name: "message",
-			// 		component: () => import("@/views/book/message/message.vue"),
-			// 	},
-			// 	{
-			// 		path: "/search",
-			// 		name: "search",
-			// 		component: () => import("@/views/book/search/search.vue"),
-			// 	},
-			// 	{
-			// 		path: "/hot",
-			// 		name: "hot",
-			// 		component: () => import("@/views/book/hot/hots.vue"),
-			// 	},
-			// ],
+			redirect: "/home",
+			children: [
+				{
+					path: "/home",
+					name: "home",
+					component: () => import("@/views/book/index.vue"),
+				},
+				{
+					path: "/tags",
+					name: "tags",
+					component: () => import("@/views/book/tags/tags.vue"),
+				},
+				{
+					path: "/bookInfo",
+					name: "detail",
+					component: () => import("@/views/book/detail/detail.vue"),
+				},{
+					path: "/search",
+					name: "search",
+					component: () => import("@/views/book/search/search.vue"),
+				}
+			],
 		},
 		// //后台模块
 		// {
@@ -72,14 +55,14 @@ const router = createRouter({
 		// 		},
 		// 	],
 		// },
-		// {
-		// 	path: "/login",
-		// 	component: import("@/views/login.vue"),
-		// },
-		// {
-		// 	path: "/register",
-		// 	component: import("@/views/register.vue"),
-		// },
+		{
+			path: "/login",
+			component: import("@/views/login.vue"),
+		},
+		{
+			path: "/register",
+			component: import("@/views/register.vue"),
+		},
 	],
 });
 

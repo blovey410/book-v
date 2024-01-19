@@ -11,6 +11,7 @@ import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import App from "./App.vue";
 import router from "./router";
 import "./assets/main.css";
+import "./assets/base.css";
 import axios from "axios";
 
 import dayjs from "dayjs";

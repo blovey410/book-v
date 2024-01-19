@@ -1,42 +1,75 @@
 <template>
 	<!--	文件头-->
 	<Header />
-	<!--	轮播图-->
-	<el-carousel :interval="5000" arrow="always">
-		<el-carousel-item v-for="item in 5" :key="item">
-			<h3 text="2xl" justify="center">{{ item }}</h3>
-		</el-carousel-item>
-	</el-carousel>
-	<!--	热门书籍-->
-	<h1>热门书籍</h1>
-	<div class="flex"></div>
-	<!--	留言板块-->
-	<h1>留言板块</h1>
+	
+	<div class="main">
+		<!--	轮播图-->
+		<el-carousel :interval="5000" arrow="always">
+			<el-carousel-item v-for="item in 5" :key="item">
+				<h3 text="2xl" justify="center">{{ item }}</h3>
+			</el-carousel-item>
+		</el-carousel>
+
+		<!--	热门书籍-->
+		<h1 class="">热门书籍</h1>
+		<div v-for="item in bookList" :key="item">
+			<BookCard :item="item" />
+		</div>
+		<!--	留言板块-->
+		<h1>留言板块</h1>
+		<el-input
+			v-model="message"
+			:rows="4"
+			type="textarea"
+			placeholder="Please input"
+		/>
+		<el-button type="primary" class="float-right mt-2" @click="submit()"
+			>留言</el-button
+		>
+	</div>
 </template>
 
 <script setup>
-import Header from "../../components/Header.vue";
+import Header from '@/components/Header.vue';
+import { ref } from 'vue';
+import BookCard from '../../components/bookCard/BookCard.vue';
 // 轮播图片列表
 const list = [
 	{
-		src: "https://img.yzcdn.cn/vant/apple-1.jpg",
+		src: 'https://img.yzcdn.cn/vant/apple-1.jpg',
 	},
 	{
-		src: "https://img.yzcdn.cn/vant/apple-2.jpg",
+		src: 'https://img.yzcdn.cn/vant/apple-2.jpg',
 	},
 	{
-		src: "https://img.yzcdn.cn/vant/apple-3.jpg",
+		src: 'https://img.yzcdn.cn/vant/apple-3.jpg',
 	},
 	{
-		src: "https://img.yzcdn.cn/vant/apple-4.jpg",
+		src: 'https://img.yzcdn.cn/vant/apple-4.jpg',
 	},
 	{
-		src: "https://img.yzcdn.cn/vant/apple-5.jpg",
+		src: 'https://img.yzcdn.cn/vant/apple-5.jpg',
 	},
 ];
+// 热门书籍列表
+const bookList = [
+	{
+		name: '三国演义',
+		imgUrl: '',
+		author: '罗贯中',
+	},
+];
+// 留言提交相关
+const message = ref('');
+const submit = () => {};
 </script>
 
 <style scoped>
+h1 {
+	font-size: 2rem;
+	font-weight: 700;
+	margin: 0;
+}
 .el-carousel__item h3 {
 	color: #475669;
 	opacity: 0.75;
