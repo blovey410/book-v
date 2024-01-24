@@ -1,4 +1,4 @@
-import { get, post } from "@/api/client";
+import { deleted,get, post } from "@/api/client";
 
 /**
  * 添加评论
@@ -6,7 +6,7 @@ import { get, post } from "@/api/client";
  * @returns {*}
  */
 export function addComment(data) {
-	return post("/comment/add", data);
+	return post("/comment/save", data);
 }
 
 export function getListAllComments(data) {

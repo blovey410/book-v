@@ -1,7 +1,7 @@
 <template>
 	<Header />
 	<div class="main">
-		<div
+		<!-- <div
 			v-for="(tag, index) in tagList"
 			class="border-slate-400 flex flex-row items-center mt-3 justify-between"
 		>
@@ -19,14 +19,15 @@
 				</div>
 			</div>
 			<div class="text-3xl"><a href="#">更多>>></a></div>
-		</div>
+		</div> -->
 	</div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import Header from '@/components/Header.vue';
 import BookCard from '@/components/BookCard/bookCard.vue';
-
+import { getTagList } from '@/api/tag';
+import { getByTagId } from '@/api/book';
 const tagList = ref([
 	{
 		name: '热门',
@@ -136,5 +137,22 @@ const tagList = ref([
 		],
 	},
 ]);
+
+const loadData = async () => {
+	const res = await getTagList();
+	if (res.success) {
+		tagList.value = res.data;
+	}
+	tagList.value.forEach((item) => {
+		res = getByTagId(item.id);
+		if (res.success){
+			item.bookList = ref.data;
+		}
+	});
+};
+
+onMounted(() => {
+	loadData();	
+});
 </script>
 <style scoped></style>

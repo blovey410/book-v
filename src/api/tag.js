@@ -1,11 +1,11 @@
-import { get, post } from "@/api/client";
+import { deleted,get, post } from "@/api/client";
 
 /**
  * 查询全部
  * @returns {*}
  */
 export function getTagList() {
-	return get("/classification/list");
+	return get("/tag/list");
 }
 
 /**
@@ -15,7 +15,7 @@ export function getTagList() {
  * @returns {*}
  */
 export function getTagPage(params) {
-	return get("/classification/list", params);
+	return get("/tag/list", params);
 }
 
 /**
@@ -24,7 +24,7 @@ export function getTagPage(params) {
  * @returns {*}
  */
 export function getTagById(id) {
-	return get(`/classification/getById`, { id });
+	return get(`/tag/getOne`, { id });
 }
 
 /**
@@ -33,7 +33,7 @@ export function getTagById(id) {
  * @returns {*}
  */
 export function updaTetag(tag) {
-	return post("/classification/update", tag);
+	return post("/tag/updateById", tag);
 }
 
 /**
@@ -41,7 +41,7 @@ export function updaTetag(tag) {
  * @param id
  */
 export function deletedTag(id) {
-	return get("/classification/delete", { id });
+	return deleted("/tag/delete", { id });
 }
 
 /**
@@ -50,5 +50,5 @@ export function deletedTag(id) {
  * @returns {*}
  */
 export function saveTag(ac) {
-	return post("/classification/add", ac);
+	return post("/tag/save", ac);
 }

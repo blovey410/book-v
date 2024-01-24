@@ -8,7 +8,7 @@ const router = createRouter({
 		{
 			path: "/",
 			name: "/",
-			redirect: "/home",
+			redirect: "/login",
 			children: [
 				{
 					path: "/home",
@@ -31,30 +31,30 @@ const router = createRouter({
 				}
 			],
 		},
-		// //后台模块
-		// {
-		// 	path: "/admin",
-		// 	name: "admin",
-		// 	component: () => import("@/views/admin/index.vue"),
-		// 	redirect: "/admin/user",
-		// 	children: [
-		// 		{
-		// 			path: "/admin/file",
-		// 			name: "file",
-		// 			component: () => import("@/views/admin/file/file.vue"),
-		// 		},
-		// 		{
-		// 			path: "/admin/tag",
-		// 			name: "tag",
-		// 			component: () => import("@/views/admin/tag/tag.vue"),
-		// 		},
-		// 		{
-		// 			path: "/admin/user",
-		// 			name: "user",
-		// 			component: () => import("@/views/admin/user/user.vue"),
-		// 		},
-		// 	],
-		// },
+		//后台模块
+		{
+			path: "/admin",
+			name: "admin",
+			component: () => import("@/views/admin/index.vue"),
+			redirect: "/admin/user",
+			children: [
+				{
+					path: "/admin/file",
+					name: "file",
+					component: () => import("@/views/admin/file/file.vue"),
+				},
+				{
+					path: "/admin/tag",
+					name: "tag",
+					component: () => import("@/views/admin/tag/tag.vue"),
+				},
+				{
+					path: "/admin/user",
+					name: "user",
+					component: () => import("@/views/admin/user/user.vue"),
+				},
+			],
+		},
 		{
 			path: "/login",
 			component: import("@/views/login.vue"),

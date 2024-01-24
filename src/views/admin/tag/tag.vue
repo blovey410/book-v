@@ -11,7 +11,7 @@
 					<el-button size="small" @click="openEdit(scope.row.id)"
 						>修改
 					</el-button>
-					<el-button size="small" @click="deleted(scope.row.id)" type="danger"
+					<el-button size="small" @click="delete(scope.row.id)" type="danger"
 						>删除
 					</el-button>
 				</template>
@@ -86,7 +86,6 @@ const tableData = reactive({
 const formData = ref({});
 
 const userStore = useUserStore();
-const token = userStore.token;
 const editDialog = ref(false);
 const addDialog = ref(false);
 

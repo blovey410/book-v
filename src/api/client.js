@@ -20,7 +20,7 @@ export function put(url, data) {
 	});
 }
 
-export function deleted(url, params) {
+export function delete(url, params) {
 	return axios.request({
 		method: "delete",
 		params,

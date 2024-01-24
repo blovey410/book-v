@@ -1,4 +1,4 @@
-import { deleted, get, post } from "@/api/client";
+import { delete, get, post } from "@/api/client";
 
 /**
  * 收藏

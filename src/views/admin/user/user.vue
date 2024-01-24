@@ -28,7 +28,7 @@
 					<el-button size="small" @click="openEditUser(scope.row.id)"
 						>修改
 					</el-button>
-					<el-button size="small" @click="deleted(scope.row.id)" type="danger"
+					<el-button size="small" @click="delete(scope.row.id)" type="danger"
 						>删除
 					</el-button>
 				</template>
@@ -149,7 +149,7 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import { onMounted, reactive, ref } from "vue";
 import {
 	addUser,
-	deletedUser,
+	deleteUser,
 	getUserById,
 	getUserList,
 	updateUser,
