@@ -1,11 +1,11 @@
-import { deleted, get, post, put } from "@/api/client";
+import { deleted, get, post, put } from '@/api/client';
 
 /**
  * 退出登录
  * @returns {*}
  */
 export function logout() {
-	return get("/user/logout");
+	return get('/user/logout');
 }
 
 /**
@@ -14,7 +14,7 @@ export function logout() {
  * @returns {*}
  */
 export function login(user) {
-	return post("/user/login", user);
+	return post('/user/login', user);
 }
 
 /**
@@ -23,7 +23,7 @@ export function login(user) {
  * @returns
  */
 export const getUserList = (data) => {
-	return get("/user/list", data);
+	return get('/user/list', data);
 };
 
 /**
@@ -32,11 +32,11 @@ export const getUserList = (data) => {
  * @returns
  */
 export const updateUser = (data) => {
-	return post("/user/update", data);
+	return post('/user/update', data);
 };
 
 export const register = (data) => {
-	return post("/user/register", data);
+	return post('/user/register', data);
 };
 /**
  * 添加用户信息
@@ -44,7 +44,7 @@ export const register = (data) => {
  * @returns
  */
 export const addUser = (data) => {
-	return post("/user/add", data);
+	return post('/user/add', data);
 };
 /**
  * 添加用户信息
@@ -52,7 +52,7 @@ export const addUser = (data) => {
  * @returns
  */
 export const deletedUser = (data) => {
-	return get("/user/delete", data);
+	return get('/user/delete', data);
 };
 
 /**

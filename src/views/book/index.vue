@@ -1,7 +1,7 @@
 <template>
 	<!--	文件头-->
 	<Header />
-	
+
 	<div class="main">
 		<!--	轮播图-->
 		<el-carousel :interval="5000" arrow="always">
@@ -11,12 +11,12 @@
 		</el-carousel>
 
 		<!--	热门书籍-->
-		<h1 class="">热门书籍</h1>
+		<h1 class="text-slate-800">热门书籍</h1>
 		<div v-for="item in bookList" :key="item">
 			<BookCard :item="item" />
 		</div>
 		<!--	留言板块-->
-		<h1>留言板块</h1>
+		<h1 class="text-slate-800">留言板块</h1>
 		<el-input
 			v-model="message"
 			:rows="4"
@@ -33,6 +33,8 @@
 import Header from '@/components/Header.vue';
 import { ref } from 'vue';
 import BookCard from '../../components/bookCard/BookCard.vue';
+import { addComment } from '@/api/comment';
+import { ElMessage } from 'element-plus';
 // 轮播图片列表
 const list = [
 	{
@@ -61,7 +63,13 @@ const bookList = [
 ];
 // 留言提交相关
 const message = ref('');
-const submit = () => {};
+const submit = async () => {
+	const res = await addComment({ message: message.value });
+	if (res.success) {
+		message.value = '';
+		ElMessage.success('留言成功');
+	}
+};
 </script>
 
 <style scoped>

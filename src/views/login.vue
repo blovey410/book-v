@@ -25,25 +25,25 @@
 </template>
 
 <script setup>
-import { ElMessage } from "element-plus";
-import { onMounted, reactive, ref } from "vue";
-import { useRouter } from "vue-router";
-import { login } from "@/api/user";
-import { useUserStore } from "@/stores/userStores";
-import { storeToRefs } from "pinia";
+import { ElMessage } from 'element-plus';
+import { onMounted, reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { login } from '@/api/user';
+import { useUserStore } from '@/stores/userStores';
+import { storeToRefs } from 'pinia';
 
 const router = useRouter();
 const form = reactive({
-	username: "admin",
-	password: "123456",
+	username: 'admin',
+	password: '123456',
 });
 const formRef = ref();
 const rules = {
-	username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-	password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+	username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+	password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
 };
 const toRegister = () => {
-	router.push("/register");
+	router.push('/register');
 };
 
 const userStore = useUserStore();
@@ -57,13 +57,13 @@ function toLogin(formEl) {
 				return;
 			}
 			userStore.setToken(res.data.token);
-			userStore.setUserInfo(res.data.user);
-			if (res.data.user.role === 1) {
+			userStore.setUserInfo(res.data);
+			if (res.data.role === 1) {
 				// 是管理员,则进入管理页面
-				await router.push("/admin");
+				await router.push('/admin');
 				return;
 			}
-			await router.push("/home");
+			await router.push('/home');
 		} else {
 			return false;
 		}
@@ -77,7 +77,7 @@ function toLogin(formEl) {
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
-	background-image: url("@/assets/login.svg");
+	background-image: url('@/assets/login.svg');
 	background-size: cover;
 	background-position: center;
 }

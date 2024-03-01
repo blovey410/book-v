@@ -1,28 +1,28 @@
-import axios from "axios";
-import router from "../router";
-import { ElMessage } from "element-plus";
-import { useUserStore } from "@/stores/userStores";
+import axios from 'axios';
+import router from '../router';
+import { ElMessage } from 'element-plus';
+import { useUserStore } from '@/stores/userStores';
 
 export function get(url, params) {
-	return axios.request({ method: "get", params, url });
+	return axios.request({ method: 'get', params, url });
 }
 
 export function post(url, data) {
-	return axios.request({ method: "post", data, url });
+	return axios.request({ method: 'post', data, url });
 }
 
 export function put(url, data) {
 	return axios.request({
-		method: "put",
+		method: 'put',
 		data,
 		url,
-		headers: { "content-type": "application/x-www-form-urlencoded" },
+		headers: { 'content-type': 'application/x-www-form-urlencoded' },
 	});
 }
 
-export function delete(url, params) {
+export function deleted(url, params) {
 	return axios.request({
-		method: "delete",
+		method: 'delete',
 		params,
 		url,
 	});
@@ -35,7 +35,7 @@ axios.interceptors.request.use(
 		const userStore = useUserStore();
 		const token = userStore.getToken();
 		if (token) {
-			config.headers["token"] = token;
+			config.headers['token'] = token;
 		}
 		return config;
 	},
@@ -52,14 +52,14 @@ axios.interceptors.response.use(
 		if (response.data.code === 400) {
 			const userStore = useUserStore();
 			userStore.clear();
-			router.push("/login");
-			Promise.reject("未登录");
+			router.push('/login');
+			Promise.reject('未登录');
 		}
 		// if (typeof response.data === "string") {
 		// 	response.data = JSON.parse(response.data);
 		// }
 		if (response.data.code !== 200) {
-			ElMessage.error({ message: response.data.msg ?? "接口异常" });
+			ElMessage.error({ message: response.data.msg ?? '接口异常' });
 			Promise.reject(response.data.msg);
 		}
 		return response.data;

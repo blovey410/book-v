@@ -139,20 +139,20 @@ const tagList = ref([
 ]);
 
 const loadData = async () => {
-	const res = await getTagList();
+	let res = await getTagList();
 	if (res.success) {
 		tagList.value = res.data;
 	}
 	tagList.value.forEach((item) => {
 		res = getByTagId(item.id);
-		if (res.success){
+		if (res.success) {
 			item.bookList = ref.data;
 		}
 	});
 };
 
 onMounted(() => {
-	loadData();	
+	loadData();
 });
 </script>
 <style scoped></style>

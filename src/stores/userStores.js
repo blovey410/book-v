@@ -1,8 +1,8 @@
-import { defineStore } from "pinia";
-import {  ref } from "vue";
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 export const useUserStore = defineStore(
-	"user",
+	'user',
 	() => {
 		const token = ref();
 		const useInfo = ref({});
@@ -22,7 +22,7 @@ export const useUserStore = defineStore(
 
 		function clear() {
 			useInfo.value = {};
-			token.value = "";
+			token.value = '';
 		}
 
 		return {

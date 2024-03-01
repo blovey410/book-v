@@ -9,7 +9,7 @@
 					<div class="name">用户名：{{ userInfo.username }}</div>
 					<div class="name">手机号：{{ userInfo.phone }}</div>
 					<div class="name">
-						用户等级：{{ userInfo.level === 1 ? "管理员" : "普通用户" }}
+						用户等级：{{ userInfo.level === 1 ? '管理员' : '普通用户' }}
 					</div>
 					<div class="name">邮箱：{{ userInfo.email }}</div>
 				</div>
@@ -57,16 +57,16 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from "vue";
-import Collection from "@/views/film/me/collection.vue";
-import { useRoute } from "vue-router";
-import { useUserStore } from "@/stores/userStores";
-import Myfile from "@/views/film/me/myfile.vue";
+import { computed, onMounted, reactive, ref } from 'vue';
+import Collection from '@/views/film/me/collection.vue';
+import { useRoute } from 'vue-router';
+import { useUserStore } from '@/stores/userStores';
+import Myfile from '@/views/film/me/myfile.vue';
 
 const route = useRoute();
 const userStore = useUserStore();
-const imageUrl = import.meta.env.VITE_TEST_URL + "/file/preview?url=";
-const activeTab = ref(route.query.tab || "collection");
+const imageUrl = import.meta.env.VITE_TEST_URL + '/file/preview?url=';
+const activeTab = ref(route.query.tab || 'collection');
 
 const userInfo = reactive({
 	username: userStore.getUserInfo().username,

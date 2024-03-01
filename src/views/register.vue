@@ -17,25 +17,21 @@
 </template>
 
 <script setup>
-import { ElMessage } from "element-plus";
-import { useRouter } from "vue-router";
-import { register } from "@/api/user";
-import { useUserStore } from "@/stores/userStores";
-import { reactive, ref } from "vue";
+import { ElMessage } from 'element-plus';
+import { useRouter } from 'vue-router';
+import { register } from '@/api/user';
+import { reactive, ref } from 'vue';
 
 const router = useRouter();
 const form = reactive({
-	username: "",
-	password: "",
+	username: '',
+	password: '',
+	role: 2,
 });
-const uploadList = ref([]);
-const uploadUrl = import.meta.env.VITE_TEST_URL + "/file/upload";
 const formRef = ref();
-const userStore = useUserStore();
-const token = userStore.token;
 const rules = {
-	username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-	password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+	username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+	password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
 };
 
 function toRegister(formEl) {
@@ -46,7 +42,7 @@ function toRegister(formEl) {
 				ElMessage.error(res.msg);
 				return;
 			}
-			await router.push("/login");
+			await router.push('/login');
 		} else {
 			return false;
 		}
@@ -54,7 +50,7 @@ function toRegister(formEl) {
 }
 
 function toLogin() {
-	router.push("/login");
+	router.push('/login');
 }
 </script>
 
@@ -64,7 +60,7 @@ function toLogin() {
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
-	background-image: url("@/assets/register.svg");
+	background-image: url('@/assets/register.svg');
 	background-size: cover;
 	background-position: center;
 }

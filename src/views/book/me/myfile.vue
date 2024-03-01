@@ -7,10 +7,9 @@
 </template>
 
 <script setup>
-import { onMounted, reactive } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import FileCard from "@/components/fileCard/fileCard.vue";
-import { queryFileByLogin } from "@/api/file";
+import { onMounted, reactive } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { queryFileByLogin } from '@/api/file';
 const tableData = reactive({
 	records: [],
 });

@@ -11,7 +11,7 @@
 					<el-button size="small" @click="openEdit(scope.row.id)"
 						>修改
 					</el-button>
-					<el-button size="small" @click="delete(scope.row.id)" type="danger"
+					<el-button size="small" @click="delete scope.row.id" type="danger"
 						>删除
 					</el-button>
 				</template>
@@ -66,16 +66,16 @@
 </template>
 
 <script setup>
-import { ElMessage, ElMessageBox } from "element-plus";
-import { onMounted, reactive, ref } from "vue";
-import { useUserStore } from "@/stores/userStores";
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { onMounted, reactive, ref } from 'vue';
+import { useUserStore } from '@/stores/userStores';
 import {
 	deletedTag,
 	getTagById,
 	getTagPage,
 	saveTag,
 	updaTetag,
-} from "@/api/tag";
+} from '@/api/tag';
 
 const tableData = reactive({
 	records: [],
@@ -100,14 +100,14 @@ const openEdit = async (id) => {
 };
 const formRef = ref();
 const rules = {
-	name: [{ required: true, message: "请输入分类名称", trigger: "blur" }],
+	name: [{ required: true, message: '请输入分类名称', trigger: 'blur' }],
 };
 const edit = (formRef) => {
 	formRef.validate(async (valid) => {
 		if (valid) {
 			const res = await updaTetag(formData.value);
 			if (res.success) {
-				ElMessage.success("修改成功");
+				ElMessage.success('修改成功');
 			} else {
 				ElMessage.error(res.msg);
 			}
@@ -125,7 +125,7 @@ const add = (formRef) => {
 		if (valid) {
 			const res = await saveTag(formData.value);
 			if (res.success) {
-				ElMessage.success("添加成功");
+				ElMessage.success('添加成功');
 			} else {
 				ElMessage.error(res.msg);
 			}
@@ -138,14 +138,14 @@ const add = (formRef) => {
 	});
 };
 const deleted = async (id) => {
-	ElMessageBox.confirm("确认要删除该分类?", "Warning", {
-		confirmButtonText: "确认",
-		cancelButtonText: "取消",
-		type: "warning",
+	ElMessageBox.confirm('确认要删除该分类?', 'Warning', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
 	}).then(async () => {
 		const res = await deletedTag(id);
 		if (res.success) {
-			ElMessage.success("删除完成");
+			ElMessage.success('删除完成');
 		} else {
 			ElMessage.error(res.msg);
 		}

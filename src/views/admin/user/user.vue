@@ -28,7 +28,7 @@
 					<el-button size="small" @click="openEditUser(scope.row.id)"
 						>修改
 					</el-button>
-					<el-button size="small" @click="delete(scope.row.id)" type="danger"
+					<el-button size="small" @click="delete scope.row.id" type="danger"
 						>删除
 					</el-button>
 				</template>
@@ -144,17 +144,17 @@
 </template>
 
 <script setup>
-import { Plus } from "@element-plus/icons-vue";
-import { ElMessage, ElMessageBox } from "element-plus";
-import { onMounted, reactive, ref } from "vue";
+import { Plus } from '@element-plus/icons-vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { onMounted, reactive, ref } from 'vue';
 import {
 	addUser,
-	deleteUser,
+	deletedUser,
 	getUserById,
 	getUserList,
 	updateUser,
-} from "@/api/user";
-import { useUserStore } from "@/stores/userStores";
+} from '@/api/user';
+import { useUserStore } from '@/stores/userStores';
 
 const tableData = reactive({
 	records: [],
@@ -164,30 +164,30 @@ const tableData = reactive({
 	// level: 2, // 查询普通用户
 });
 const formUser = ref({
-	avatar: "",
+	avatar: '',
 });
 const userStore = useUserStore();
 const token = userStore.token;
 const uploadList = ref([]);
-const imageUrl = import.meta.env.VITE_TEST_URL + "/file/preview?url=";
-const uploadUrl = import.meta.env.VITE_TEST_URL + "/file/upload";
+const imageUrl = import.meta.env.VITE_TEST_URL + '/file/preview?url=';
+const uploadUrl = import.meta.env.VITE_TEST_URL + '/file/upload';
 
 const editDialog = ref(false);
 const addDialog = ref(false);
 const formRef = ref();
 const rules = {
-	username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-	password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-	phone: [{ required: true, message: "请输入电话", trigger: "blur" }],
-	email: [{ required: true, message: "请输入邮箱", trigger: "blur" }],
-	role: [{ required: true, message: "请选择身份", trigger: "blur" }],
+	username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+	password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+	phone: [{ required: true, message: '请输入电话', trigger: 'blur' }],
+	email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+	role: [{ required: true, message: '请选择身份', trigger: 'blur' }],
 };
 const openEditUser = async (id) => {
 	const res = await getUserById(id);
 	if (res.success) {
 		formUser.value = res.data;
 		if (res.data.avatar) {
-			uploadList.value.push({ url: imageUrl+res.data.avatar });
+			uploadList.value.push({ url: imageUrl + res.data.avatar });
 		}
 		editDialog.value = true;
 	} else {
@@ -201,7 +201,7 @@ const edit = (formRef) => {
 		}
 		const res = await updateUser(formUser.value);
 		if (res.success) {
-			ElMessage.success("修改成功");
+			ElMessage.success('修改成功');
 		} else {
 			ElMessage.error(res.msg);
 		}
@@ -218,7 +218,7 @@ const add = (formRef) => {
 		}
 		const res = await addUser(formUser.value);
 		if (res.success) {
-			ElMessage.success("添加成功");
+			ElMessage.success('添加成功');
 		} else {
 			ElMessage.error(res.msg);
 		}
@@ -228,14 +228,14 @@ const add = (formRef) => {
 	});
 };
 const deleted = async (id) => {
-	ElMessageBox.confirm("确认要删除该用户?", "Warning", {
-		confirmButtonText: "确认",
-		cancelButtonText: "取消",
-		type: "warning",
+	ElMessageBox.confirm('确认要删除该用户?', 'Warning', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
 	}).then(async () => {
 		const res = await deletedUser({ id });
 		if (res.success) {
-			ElMessage.success("删除完成");
+			ElMessage.success('删除完成');
 		} else {
 			ElMessage.error(res.msg);
 		}

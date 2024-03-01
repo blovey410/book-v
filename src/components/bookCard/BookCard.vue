@@ -4,12 +4,12 @@ const router = useRouter();
 const prefix = import.meta.env.VITE_TEST_URL;
 defineProps({
 	item: Object,
-})
+});
 const getInfo = (id) => {
 	// TODO: 跳转到书籍详情页
 	router.push({
 		path: `/bookInfo`,
-		query: {id}
+		query: { id },
 	});
 };
 </script>

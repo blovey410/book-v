@@ -1,5 +1,5 @@
 <template>
-	<Header/>
+	<Header />
 	<div class="main">
 		<div class="flex justify-evenly mt-10">
 			<el-image
@@ -14,7 +14,7 @@
 				<span>编号：{{ bookDetail.id }}</span>
 				<span>出版社：{{ bookDetail.create }}</span>
 				<span>简介：{{ bookDetail.info }}</span>
-				<el-button type="primary" class="mt-5">借阅</el-button>
+				<el-button type="primary" class="mt-5">借阅</el-button>qq
 			</div>
 		</div>
 	</div>
@@ -45,7 +45,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-span{
+span {
 	margin-bottom: 10px;
 }
 </style>

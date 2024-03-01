@@ -1,67 +1,83 @@
-import { createRouter, createWebHistory } from "vue-router";
-import { ElMessage } from "element-plus";
-import { useUserStore } from "@/stores/userStores";
+import { createRouter, createWebHistory } from 'vue-router';
+import { ElMessage } from 'element-plus';
+import { useUserStore } from '@/stores/userStores';
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
 		{
-			path: "/",
-			name: "/",
-			redirect: "/login",
+			path: '/',
+			name: '/',
+			redirect: '/login',
 			children: [
 				{
-					path: "/home",
-					name: "home",
-					component: () => import("@/views/book/index.vue"),
+					path: '/home',
+					name: 'home',
+					component: () => import('@/views/book/index.vue'),
 				},
 				{
-					path: "/tags",
-					name: "tags",
-					component: () => import("@/views/book/tags/tags.vue"),
+					path: '/tags',
+					name: 'tags',
+					component: () => import('@/views/book/tags/tags.vue'),
 				},
 				{
-					path: "/bookInfo",
-					name: "detail",
-					component: () => import("@/views/book/detail/detail.vue"),
-				},{
-					path: "/search",
-					name: "search",
-					component: () => import("@/views/book/search/search.vue"),
-				}
+					path: '/bookInfo',
+					name: 'detail',
+					component: () => import('@/views/book/detail/detail.vue'),
+				},
+				{
+					path: '/search',
+					name: 'search',
+					component: () => import('@/views/book/search/search.vue'),
+				},
 			],
 		},
 		//后台模块
 		{
-			path: "/admin",
-			name: "admin",
-			component: () => import("@/views/admin/index.vue"),
-			redirect: "/admin/user",
+			path: '/admin',
+			name: 'admin',
+			component: () => import('@/views/admin/index.vue'),
+			redirect: '/admin/user',
 			children: [
 				{
-					path: "/admin/file",
-					name: "file",
-					component: () => import("@/views/admin/file/file.vue"),
+					path: '/admin/book',
+					name: 'book',
+					component: () => import('@/views/admin/book/book.vue'),
 				},
 				{
-					path: "/admin/tag",
-					name: "tag",
-					component: () => import("@/views/admin/tag/tag.vue"),
+					path: '/admin/tag',
+					name: 'tag',
+					component: () => import('@/views/admin/tag/tag.vue'),
 				},
 				{
-					path: "/admin/user",
-					name: "user",
-					component: () => import("@/views/admin/user/user.vue"),
+					path: '/admin/user',
+					name: 'user',
+					component: () => import('@/views/admin/user/user.vue'),
+				},
+				{
+					path: '/admin/borrow',
+					name: 'borrow',
+					component: () => import('@/views/admin/borrow/borrow.vue'),
+				},
+				{
+					path: '/admin/return',
+					name: 'return',
+					component: () => import('@/views/admin/return/return.vue'),
+				},
+				{
+					path: '/admin/comment',
+					name: 'comment',
+					component: () => import('@/views/admin/comment/comment.vue'),
 				},
 			],
 		},
 		{
-			path: "/login",
-			component: import("@/views/login.vue"),
+			path: '/login',
+			component: import('@/views/login.vue'),
 		},
 		{
-			path: "/register",
-			component: import("@/views/register.vue"),
+			path: '/register',
+			component: import('@/views/register.vue'),
 		},
 	],
 });

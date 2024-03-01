@@ -7,10 +7,10 @@
 </template>
 
 <script setup>
-import { onMounted, reactive } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { getSelfCollect } from "@/api/collection";
-import FileCard from "@/components/fileCard/fileCard.vue";
+import { onMounted, reactive } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { getSelfCollect } from '@/api/collection';
+
 const tableData = reactive({
 	records: [],
 });
@@ -20,7 +20,7 @@ const router = useRouter();
 
 const toDetail = (id) => {
 	router.push({
-		path: "/detail",
+		path: '/detail',
 		query: {
 			id: id,
 		},

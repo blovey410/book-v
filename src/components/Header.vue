@@ -18,7 +18,7 @@ const closeMenu = () => {
 		text-color="#fff"
 		active-text-color="#ffd04b"
 		mode="horizontal"
-		:router = "true"
+		:router="true"
 	>
 		<el-menu-item index="/home">首页</el-menu-item>
 		<el-menu-item index="/tags">分类</el-menu-item>

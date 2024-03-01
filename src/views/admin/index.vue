@@ -21,15 +21,13 @@
 						:router="true"
 					>
 						<el-sub-menu index="/admin">
-							<template #title>
-								<el-icon>
-									<VideoPlay />
-								</el-icon>
-								知识共享平台
-							</template>
+							<template #title> 图书借阅管理后台 </template>
 							<el-menu-item index="/admin/user">用户管理</el-menu-item>
-							<el-menu-item index="/admin/file">文件管理</el-menu-item>
+							<el-menu-item index="/admin/book">图书管理</el-menu-item>
 							<el-menu-item index="/admin/tag">分类管理</el-menu-item>
+							<el-menu-item index="/admin/comment">评论管理</el-menu-item>
+							<el-menu-item index="/admin/borrow">借阅管理</el-menu-item>
+							<el-menu-item index="/admin/return">归还管理</el-menu-item>
 						</el-sub-menu>
 					</el-menu>
 				</el-scrollbar>
@@ -78,18 +76,18 @@
 </template>
 
 <script setup>
-import { Setting, VideoPlay } from "@element-plus/icons-vue";
-import { onMounted, ref } from "vue";
-import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
+import { Setting } from '@element-plus/icons-vue';
+import { onMounted, ref } from 'vue';
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 
 const checked1 = ref(1);
 
-import { logout } from "@/api/user";
-import { useUserStore } from "@/stores/userStores";
+import { logout } from '@/api/user';
+import { useUserStore } from '@/stores/userStores';
 
 const router = useRouter();
 const route = useRoute();
-const title = ref("");
+const title = ref('');
 const goBack = () => {
 	router.back();
 };
@@ -98,7 +96,7 @@ const userStore = useUserStore();
 const userLogout = async () => {
 	await logout();
 	userStore.clear();
-	await router.push("/login");
+	await router.push('/login');
 };
 
 onBeforeRouteUpdate((to) => {
@@ -124,17 +122,12 @@ onMounted(() => {
 .fade-leave-to {
 	opacity: 0;
 }
-
-.toolbar {
-}
-
 .head {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	height: 50px;
-	box-shadow: rgba(0, 0, 0, 0.05) 0 6px 10px 0,
-		rgba(0, 0, 0, 0.08) 0 0 0 1px;
+	box-shadow: rgba(0, 0, 0, 0.05) 0 6px 10px 0, rgba(0, 0, 0, 0.08) 0 0 0 1px;
 	margin: 0 20px;
 	background-color: #ffff;
 }

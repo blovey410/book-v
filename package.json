@@ -6,7 +6,7 @@
     "dev": "vite --open",
     "build": "vite build",
     "preview": "vite preview",
-		"prettier": "npx prettier --write src"
+    "prettier": "npx prettier --write src"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",

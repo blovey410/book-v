@@ -1,4 +1,4 @@
-import { delete, get, post } from "@/api/client";
+import { deletedd, get, post } from '@/api/client';
 
 /**
  * 收藏
@@ -6,7 +6,7 @@ import { delete, get, post } from "@/api/client";
  * @returns {*}
  */
 export function addCollection(file) {
-	return post("/collection/add", file);
+	return post('/collection/add', file);
 }
 
 /**
@@ -15,7 +15,7 @@ export function addCollection(file) {
  * @returns {*}
  */
 export function unCollection(id) {
-	return get("/collection/delete", { id });
+	return get('/collection/delete', { id });
 }
 
 /**
@@ -25,5 +25,5 @@ export function unCollection(id) {
  * @returns {*}
  */
 export function getSelfCollect() {
-	return get("/collection/getByUserId");
+	return get('/collection/getByUserId');
 }
