@@ -4,14 +4,14 @@
 			<el-button @click="addDialog = true">添加分类</el-button>
 		</div>
 		<el-table :data="tableData.records">
-			<el-table-column prop="id" label="id" />
+			<el-table-column prop="id" label="分类编号" />
 			<el-table-column prop="name" label="分类名称" />
 			<el-table-column label="操作">
 				<template #default="scope">
 					<el-button size="small" @click="openEdit(scope.row.id)"
 						>修改
 					</el-button>
-					<el-button size="small" @click="delete scope.row.id" type="danger"
+					<el-button size="small" @click="deleted(scope.row.id)" type="danger"
 						>删除
 					</el-button>
 				</template>
@@ -80,12 +80,11 @@ import {
 const tableData = reactive({
 	records: [],
 	pages: 0,
-	page: 1,
+	current: 1,
 	size: 10,
+	total: 0,
 });
 const formData = ref({});
-
-const userStore = useUserStore();
 const editDialog = ref(false);
 const addDialog = ref(false);
 
@@ -164,12 +163,12 @@ const resetForm = () => {
 
 const loadData = async () => {
 	const res = await getTagPage({
-		page: tableData.page,
+		current: tableData.current,
 		size: tableData.size,
 	});
 	if (res.success) {
-		tableData.records = res.data;
-		tableData.page = res.data.pageNum;
+		tableData.records = res.data.records;
+		tableData.current = res.data.pageNum;
 		tableData.pages = res.data.pages;
 	}
 };

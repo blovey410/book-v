@@ -21,7 +21,7 @@
 						:router="true"
 					>
 						<el-sub-menu index="/admin">
-							<template #title> 图书借阅管理后台 </template>
+							<template #title> 乡村文化图书管理后台 </template>
 							<el-menu-item index="/admin/user">用户管理</el-menu-item>
 							<el-menu-item index="/admin/book">图书管理</el-menu-item>
 							<el-menu-item index="/admin/tag">分类管理</el-menu-item>
@@ -79,9 +79,6 @@
 import { Setting } from '@element-plus/icons-vue';
 import { onMounted, ref } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
-
-const checked1 = ref(1);
-
 import { logout } from '@/api/user';
 import { useUserStore } from '@/stores/userStores';
 
@@ -94,7 +91,7 @@ const goBack = () => {
 const userStore = useUserStore();
 
 const userLogout = async () => {
-	await logout();
+	// await logout();
 	userStore.clear();
 	await router.push('/login');
 };

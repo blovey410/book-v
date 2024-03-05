@@ -25,7 +25,7 @@ const getInfo = (id) => {
 		>
 			<el-image
 				style="width: 100%; height: 100px; margin-top: 10px"
-				:src="item.imgUrl"
+				:src="prefix+'/uploads/'+item.imgUrl"
 				fit="cover"
 			></el-image>
 			<div class="flex flex-col">

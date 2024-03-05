@@ -73,11 +73,11 @@ const router = createRouter({
 		},
 		{
 			path: '/login',
-			component: import('@/views/login.vue'),
+			component: () => import('@/views/login.vue'),
 		},
 		{
 			path: '/register',
-			component: import('@/views/register.vue'),
+			component: () => import('@/views/register.vue'),
 		},
 	],
 });

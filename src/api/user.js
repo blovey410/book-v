@@ -32,34 +32,18 @@ export const getUserList = (data) => {
  * @returns
  */
 export const updateUser = (data) => {
-	return post('/user/update', data);
+	return post('/user/updateById', data);
 };
 
-export const register = (data) => {
-	return post('/user/register', data);
-};
-/**
- * 添加用户信息
- * @param {*} data
- * @returns
- */
+
 export const addUser = (data) => {
-	return post('/user/add', data);
-};
-/**
- * 添加用户信息
- * @param {*} data
- * @returns
- */
-export const deletedUser = (data) => {
-	return get('/user/delete', data);
+	return post('/user/save', data);
 };
 
-/**
- * 添加用户信息
- * @param  id
- * @returns
- */
+export const deletedUser = (data) => {
+	return deleted('/user/delete', data);
+};
+
 export const getUserById = (id) => {
-	return get(`/user/getById?id=${id}`);
+	return get(`/user/getOne?id=${id}`);
 };

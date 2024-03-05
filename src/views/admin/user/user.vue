@@ -5,13 +5,9 @@
 		</div>
 		<el-table :data="tableData.records">
 			<el-table-column prop="username" label="用户名" />
-			<el-table-column prop="avatar" label="头像" width="200">
-				<template #default="scope">
-					<el-image class="h-[100px]" :src="`${imageUrl}${scope.row.avatar}`" />
-				</template>
-			</el-table-column>
+			<el-table-column prop="sex" label="性别" />
+			<el-table-column prop="telephone" label="联系方式" />
 			<el-table-column prop="email" label="邮箱" />
-			<el-table-column prop="phone" label="联系方式" />
 			<el-table-column prop="role" label="等级">
 				<template #default="scope">
 					<el-tag v-if="scope.row.role === 1" type="success">管理员</el-tag>
@@ -28,7 +24,7 @@
 					<el-button size="small" @click="openEditUser(scope.row.id)"
 						>修改
 					</el-button>
-					<el-button size="small" @click="delete scope.row.id" type="danger"
+					<el-button size="small" @click="deleted(scope.row.id)" type="danger"
 						>删除
 					</el-button>
 				</template>
@@ -49,14 +45,17 @@
 				:rules="rules"
 				ref="formRef"
 			>
-				<el-form-item label="昵称" prop="username">
+				<el-form-item label="用户名" prop="username">
 					<el-input v-model="formUser.username" />
 				</el-form-item>
 				<el-form-item label="密码" prop="password">
 					<el-input type="password" v-model="formUser.password" />
 				</el-form-item>
-				<el-form-item label="电话" prop="phone">
-					<el-input v-model="formUser.phone" />
+				<el-form-item label="性别" prop="sex">
+					<el-input type="sex" v-model="formUser.sex" />
+				</el-form-item>
+				<el-form-item label="联系方式" prop="telephone">
+					<el-input v-model="formUser.telephone" />
 				</el-form-item>
 				<el-form-item label="邮箱" prop="email">
 					<el-input v-model="formUser.email" />
@@ -66,20 +65,6 @@
 						<el-option label="管理员" :value="1" />
 						<el-option label="普通用户" :value="2" />
 					</el-select>
-				</el-form-item>
-				<el-form-item label="头像">
-					<el-upload
-						v-model:file-list="uploadList"
-						:headers="{ token }"
-						:action="uploadUrl"
-						list-type="picture-card"
-						:limit="1"
-						:on-success="uploadSuccess"
-					>
-						<el-icon>
-							<Plus />
-						</el-icon>
-					</el-upload>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="edit(formRef)">更新</el-button>
@@ -102,14 +87,17 @@
 				:rules="rules"
 				ref="formRef"
 			>
-				<el-form-item label="昵称" prop="username">
+				<el-form-item label="用户名" prop="username">
 					<el-input v-model="formUser.username" />
 				</el-form-item>
 				<el-form-item label="密码" prop="password">
 					<el-input type="password" v-model="formUser.password" />
 				</el-form-item>
-				<el-form-item label="电话" prop="phone">
-					<el-input v-model="formUser.phone" />
+				<el-form-item label="性别" prop="sex">
+					<el-input type="sex" v-model="formUser.sex" />
+				</el-form-item>
+				<el-form-item label="联系方式" prop="telephone">
+					<el-input v-model="formUser.telephone" />
 				</el-form-item>
 				<el-form-item label="邮箱" prop="email">
 					<el-input v-model="formUser.email" />
@@ -119,20 +107,6 @@
 						<el-option label="管理员" :value="1" />
 						<el-option label="普通用户" :value="2" />
 					</el-select>
-				</el-form-item>
-				<el-form-item label="头像">
-					<el-upload
-						v-model:file-list="uploadList"
-						:action="uploadUrl"
-						:headers="{ token }"
-						list-type="picture-card"
-						:on-success="uploadSuccess"
-						:limit="1"
-					>
-						<el-icon>
-							<Plus />
-						</el-icon>
-					</el-upload>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="add(formRef)">添加</el-button>
@@ -154,31 +128,22 @@ import {
 	getUserList,
 	updateUser,
 } from '@/api/user';
-import { useUserStore } from '@/stores/userStores';
-
 const tableData = reactive({
 	records: [],
 	pages: 0,
-	page: 1,
+	current: 1,
 	size: 10,
-	// level: 2, // 查询普通用户
+	total: 0,
 });
-const formUser = ref({
-	avatar: '',
-});
-const userStore = useUserStore();
-const token = userStore.token;
-const uploadList = ref([]);
-const imageUrl = import.meta.env.VITE_TEST_URL + '/file/preview?url=';
-const uploadUrl = import.meta.env.VITE_TEST_URL + '/file/upload';
-
+const formUser = ref({});
 const editDialog = ref(false);
 const addDialog = ref(false);
 const formRef = ref();
 const rules = {
 	username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
 	password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-	phone: [{ required: true, message: '请输入电话', trigger: 'blur' }],
+	sex: [{ required: true, message: '请输入性别', trigger: 'blur' }],
+	telephone: [{ required: true, message: '请输入电话', trigger: 'blur' }],
 	email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
 	role: [{ required: true, message: '请选择身份', trigger: 'blur' }],
 };
@@ -186,9 +151,6 @@ const openEditUser = async (id) => {
 	const res = await getUserById(id);
 	if (res.success) {
 		formUser.value = res.data;
-		if (res.data.avatar) {
-			uploadList.value.push({ url: imageUrl + res.data.avatar });
-		}
 		editDialog.value = true;
 	} else {
 		ElMessage.error(res.msg);
@@ -242,11 +204,6 @@ const deleted = async (id) => {
 		loadData();
 	});
 };
-const uploadSuccess = (response) => {
-	if (response.success) {
-		formUser.value.avatar = response.data.url;
-	}
-};
 const resetForm = () => {
 	if (addDialog.value) {
 		addDialog.value = false;
@@ -255,7 +212,6 @@ const resetForm = () => {
 		editDialog.value = false;
 	}
 	formUser.value = {};
-	uploadList.value = [];
 };
 
 const loadData = async () => {

@@ -10,9 +10,17 @@ export function addComment(data) {
 }
 
 export function getListAllComments(data) {
-	return get('/comment/page', data);
+	return get('/comment/getList', data);
 }
 
 export function delComment(data) {
 	return get('/comment/delete', data);
+}
+
+export function getCommentById(id) {
+	return get(`/comment/getOne`, id);
+}
+
+export function updateComment(data) {
+	return post('/comment/updateById', data);
 }

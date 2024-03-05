@@ -26,11 +26,10 @@
 
 <script setup>
 import { ElMessage } from 'element-plus';
-import { onMounted, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { login } from '@/api/user';
 import { useUserStore } from '@/stores/userStores';
-import { storeToRefs } from 'pinia';
 
 const router = useRouter();
 const form = reactive({
@@ -56,7 +55,6 @@ function toLogin(formEl) {
 				ElMessage.error(res.msg);
 				return;
 			}
-			userStore.setToken(res.data.token);
 			userStore.setUserInfo(res.data);
 			if (res.data.role === 1) {
 				// 是管理员,则进入管理页面

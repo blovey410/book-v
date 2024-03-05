@@ -1,94 +1,25 @@
 <template>
 	<div>
 		<div>
-			<el-button @click="addDialog = true">添加图书</el-button>
+			<el-button @click="addDialog = true">添加评论</el-button>
 		</div>
 		<el-table :data="tableData.records">
-			<el-table-column prop="name" label="图书名称" />
-			<el-table-column prop="author" label="图书作者" />
-			<el-table-column prop="img_url" label="图书封面" width="200">
-				<template #default="scope">
-					<el-image
-						style="width: 80px; height: 50px"
-						:src="prefix + '/book/preview?url=' + scope.row.img_url"
-					/>
-				</template>
-			</el-table-column>
-			<el-table-column prop="num" label="图书数量" />
-			<el-table-column prop="info" label="图书简介" />
-			<el-table-column prop="create" label="出版社" />
-			<el-table-column prop="theme" label="题名主题" />
-			<el-table-column prop="create_time" label="创建时间" />
+			<el-table-column prop="id" label="评论编号" />
+			<el-table-column prop="content" label="评论内容" />
+			<el-table-column prop="username" label="评论人" />
+			<el-table-column prop="createTime" label="评论时间" />
 			<el-table-column label="操作">
 				<template #default="scope">
+					<el-button size="small" @click="openEdit(scope.row.id)"
+						>修改
+					</el-button>
 					<el-button size="small" @click="deleted(scope.row.id)" type="danger"
 						>删除
 					</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
-		<el-dialog
-			:close-on-click-modal="false"
-			:close-on-press-escape="false"
-			v-model="addDialog"
-			title="新增"
-			width="30%"
-			:before-close="resetForm"
-		>
-			<el-form
-				:model="formBook"
-				label-width="120px"
-				:rules="rules"
-				ref="formRef"
-			>
-				<el-form-item label="图书名称" prop="name">
-					<el-input v-model="formBook.name" />
-				</el-form-item>
-				<el-form-item label="图书作者" prop="author">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="封面上传" prop="img_url">
-					<el-upload
-						v-model:file-list="covers"
-						:action="uploadUrl"
-						:headers="{ Token: token }"
-						list-type="picture-card"
-						:limit="1"
-						:on-success="coversSuccess"
-					>
-						<el-icon>
-							<Plus />
-						</el-icon>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="图书数量" prop="num">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="图书简介" prop="info">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="出版社" prop="create">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="题名主题" prop="theme">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="图书分类" prop="classification">
-					<el-select v-model="formBook.classification">
-						<el-option
-							v-for="(item, index) in tagList"
-							:key="index"
-							:label="item.name"
-							:value="item.id"
-						/>
-					</el-select>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" @click="add(formRef)">添加</el-button>
-					<el-button @click="resetForm">取消</el-button>
-				</el-form-item>
-			</el-form>
-		</el-dialog>
+
 		<el-dialog
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
@@ -98,55 +29,60 @@
 			:before-close="resetForm"
 		>
 			<el-form
-				:model="formBook"
+				:model="formData"
 				label-width="120px"
 				:rules="rules"
 				ref="formRef"
 			>
-				<el-form-item label="图书名称" prop="name">
-					<el-input v-model="formBook.name" />
+				<el-form-item label="评论内容" prop="content">
+					<el-input v-model="formData.content" />
 				</el-form-item>
-				<el-form-item label="图书作者" prop="author">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="封面上传" prop="img_url">
-					<el-upload
-						v-model:file-list="covers"
-						:action="uploadUrl"
-						:headers="{ Token: token }"
-						list-type="picture-card"
-						:limit="1"
-						:on-success="coversSuccess"
-					>
-						<el-icon>
-							<Plus />
-						</el-icon>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="图书数量" prop="num">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="图书简介" prop="info">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="出版社" prop="create">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="题名主题" prop="theme">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="图书分类" prop="classification">
-					<el-select v-model="formBook.classification">
+				<el-form-item label="评论人" prop="userId">
+					<el-select v-model="formData.userId">
 						<el-option
-							v-for="(item, index) in tagList"
+							v-for="(item, index) in userList"
 							:key="index"
-							:label="item.name"
+							:label="item.username"
 							:value="item.id"
 						/>
 					</el-select>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="add(formRef)">添加</el-button>
+					<el-button type="primary" @click="edit(formRef)">更新</el-button>
+					<el-button @click="resetForm">取消</el-button>
+				</el-form-item>
+			</el-form>
+		</el-dialog>
+
+		<el-dialog
+			:close-on-click-modal="false"
+			:close-on-press-escape="false"
+			v-model="addDialog"
+			title="新增"
+			width="30%"
+			:before-close="resetForm"
+		>
+			<el-form
+				:model="formData"
+				label-width="120px"
+				:rules="rules"
+				ref="formRef"
+			>
+				<el-form-item label="分类内容" prop="content">
+					<el-input v-model="formData.content" />
+				</el-form-item>
+				<el-form-item label="评论人" prop="userId">
+					<el-select v-model="formData.userId">
+						<el-option
+							v-for="(item, index) in userList"
+							:key="index"
+							:label="item.username"
+							:value="item.id"
+						/>
+					</el-select>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" @click="add(formRef)">新增</el-button>
 					<el-button @click="resetForm">取消</el-button>
 				</el-form-item>
 			</el-form>
@@ -156,71 +92,135 @@
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
-import { Plus } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
-import { useUserStore } from '@/stores/userStores';
-import { addComment, getListAllComments, delComment } from '@/api/comment';
-
-const store = useUserStore();
-const token = store.getToken();
+import {
+	addComment,
+	getListAllComments,
+	delComment,
+	updateComment,
+	getCommentById,
+} from '@/api/comment';
+import { getUserList } from '@/api/user';
 const addDialog = ref(false);
-const tagList = ref([]);
-const prefix = import.meta.env.VITE_TEST_URL;
-// 文件上传路径
-
+const editDialog = ref(false);
 const tableData = reactive({
 	records: [],
 	pages: 0,
-	page: 1,
+	current: 1,
 	size: 10,
-	type: 5, // 查询普通用户
+	total: 0,
 });
-const isShow = ref(true);
+const rules = {
+	content: [{ required: true, message: '请输入评论内容', trigger: 'blur' }],
+	userId: [{ required: true, message: '请选择评论人', trigger: 'blur' }],
+};
+// 评论人
+const userList = ref([]);
 
-const loadData = () => {
-	getListAllComments(tableData)
-		.then((res) => {
-			tableData.records = res.records;
-			tableData.pages = res.pages;
-		})
-		.catch((error) => {
-			ElMessage.error('查询失败');
-		});
+const formData = reactive({
+	content: '',
+	userId: '',
+});
+
+const formRef = ref();
+
+const loadData = async () => {
+	let res = await getListAllComments({
+		current: tableData.current,
+		size: tableData.size,
+	});
+	if (res.success) {
+		tableData.records = res.data.records;
+		tableData.current = res.data.current;
+		tableData.pages = res.data.pages;
+		tableData.total = res.data.total;
+	} else {
+		ElMessage.error('查询失败');
+	}
 };
 
-// 添加借阅记录
-const add = (formRef) => {
-	formRef.value.validate((valid) => {
+const getCommentUserList = async () => {
+	const res = await getUserList();
+	if (res.success) {
+		userList.value = res.data;
+	} else {
+		ElMessage.error(res.msg);
+	}
+};
+
+// 添加评论记录
+const add = async (formRef) => {
+	formRef.validate(async (valid) => {
+		if (!valid) {
+			return false;
+		}
+		const res = await addComment(formData);
+		if (res.success) {
+			ElMessage.success('添加成功');
+		} else {
+			ElMessage.error(res.msg);
+		}
+		addDialog.value = false;
+		resetForm();
+		await loadData();
+	});
+};
+
+const deleted = async (id) => {
+	const res = await delComment(id);
+	if (res.success) {
+		ElMessage.success('删除成功');
+		await loadData();
+	} else {
+		ElMessage.error(res.msg);
+	}
+};
+
+const edit = async (formRef) => {
+	formRef.validate(async (valid) => {
 		if (valid) {
-			addComment(formBook)
-				.then((res) => {
-					ElMessage.success('添加成功');
-					addDialog.value = false;
-					loadData();
-				})
-				.catch((error) => {
-					ElMessage.error('添加失败');
-				});
+			const res = await updateComment(formData);
+			if (res.success) {
+				ElMessage.success('修改成功');
+			} else {
+				ElMessage.error(res.msg);
+			}
+			editDialog.value = false;
+			resetForm();
+			await loadData();
 		} else {
 			return false;
 		}
 	});
 };
 
-// 删除借阅记录
-const deleted = (id) => {
-	delComment(id)
-		.then((res) => {
-			ElMessage.success('删除成功');
-			loadData();
-		})
-		.catch((error) => {
-			ElMessage.error('删除失败');
-		});
+const openEdit = async (id) => {
+	editDialog.value = true;
+	const res = await getCommentById({ id });
+	if (!res.success) {
+		ElMessage.error(res.msg);
+		return;
+	}
+	formData.id = res.data.id;
+	formData.content = res.data.content;
+	formData.userId = res.data.userId;
+};
+
+const resetForm = () => {
+	if (addDialog.value) {
+		addDialog.value = false;
+	}
+	if (editDialog.value) {
+		editDialog.value = false;
+	}
+	formData.id = '';
+	formData.content = '';
+	formData.userId = '';
 };
 
 onMounted(() => {
 	loadData();
+	getCommentUserList();
 });
 </script>
 

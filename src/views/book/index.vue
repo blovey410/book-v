@@ -4,9 +4,9 @@
 
 	<div class="main">
 		<!--	轮播图-->
-		<el-carousel :interval="5000" arrow="always">
-			<el-carousel-item v-for="item in 5" :key="item">
-				<h3 text="2xl" justify="center">{{ item }}</h3>
+		<el-carousel :interval="5000" arrow="always" height="400px">
+			<el-carousel-item v-for="item in list" :key="item">
+				<el-image style="width: 1215px;" :src="item.src" />
 			</el-carousel-item>
 		</el-carousel>
 
@@ -31,14 +31,16 @@
 
 <script setup>
 import Header from '@/components/Header.vue';
-import { ref } from 'vue';
-import BookCard from '../../components/bookCard/BookCard.vue';
+import { ref, onMounted } from 'vue';
+import BookCard from '@/components/bookCard/BookCard.vue';
 import { addComment } from '@/api/comment';
 import { ElMessage } from 'element-plus';
+import { getHotBook } from '../../api/book';
+import lunbo1 from "@/assets/image/bg.jpg";
 // 轮播图片列表
 const list = [
 	{
-		src: 'https://img.yzcdn.cn/vant/apple-1.jpg',
+		src: lunbo1,
 	},
 	{
 		src: 'https://img.yzcdn.cn/vant/apple-2.jpg',
@@ -54,13 +56,13 @@ const list = [
 	},
 ];
 // 热门书籍列表
-const bookList = [
+const bookList = ref([
 	{
 		name: '三国演义',
 		imgUrl: '',
 		author: '罗贯中',
 	},
-];
+]);
 // 留言提交相关
 const message = ref('');
 const submit = async () => {
@@ -70,6 +72,16 @@ const submit = async () => {
 		ElMessage.success('留言成功');
 	}
 };
+
+const loadData = async () => {
+	const res = await getHotBook();
+	if (res.success) {
+		bookList.value = res.data;
+	}
+};
+onMounted(() => {
+	loadData();
+});
 </script>
 
 <style scoped>

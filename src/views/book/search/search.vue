@@ -23,23 +23,24 @@
 				class="flex flex-col justify-center mr-3"
 			>
 				<bookCard :item="item" />
-				<el-button type="primary" class="float-right mt-2" @click=""
+				<el-button type="primary" class="float-right mt-2" @click="openBorrow(item.id)"
 					>借阅</el-button
 				>
 			</div>
 		</div>
 	</div>
+	<Borrow :dialogVisible="dialogVisible" :bookId="bookId" />
 </template>
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
 import { reactive, watchEffect } from 'vue';
 import bookCard from '@/components/bookCard/bookCard.vue';
-import { queryKnow } from '@/api/file';
 import { Search } from '@element-plus/icons-vue';
 import Header from '@/components/Header.vue';
-
+import Borrow from '@/components/Borrow.vue';
+import { getSearch } from '@/api/book';
 const route = useRoute();
-const router = useRouter();
+const dialogVisible = ref(false);
 const tableData = reactive({
 	records: [
 		{
@@ -48,7 +49,7 @@ const tableData = reactive({
 			imgUrl: '',
 		},
 		{
-			id: 1,
+			id: 2,
 			name: '三国演义',
 			imgUrl: '',
 		},
@@ -56,13 +57,18 @@ const tableData = reactive({
 	search: '',
 });
 
+const bookId = ref('');
+openBorrow = (id) => {
+	dialogVisible.value = true;
+	bookId = id;
+};
 const loadData = async () => {
-	// const result = await queryKnow({
-	// 	name: tableData.search,
-	// });
-	// if (result.success) {
-	// 	tableData.records = result.data;
-	// }
+	const result = await getSearch({
+		name: tableData.search,
+	});
+	if (result.success) {
+		tableData.records = result.data;
+	}
 };
 
 watchEffect(() => {

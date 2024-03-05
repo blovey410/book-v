@@ -2,16 +2,23 @@ import { deleted, get, post } from '@/api/client';
 
 const path = '/borrow';
 
+// 借阅图书
 export function addData(data) {
-	return post(`${path}/save`, data);
+	return post(`${path}/borrow`, data);
 }
 
-export function getAllList(type, data) {
-	return get(`${path}/page/${type}`, data);
+// 归还图书
+export function returnData(data) {
+	return post(`${path}/return`, data);
 }
 
+export function getAllList(data) {
+	return get(`${path}/page/${data.type}`, data);
+}
+
+// 查询个人的借阅记录或归还记录
 export function getBorrowById(id, type, data) {
-	return get(`${path}/get/${id}/${type}`, da);
+	return get(`${path}/get/${id}/${type}`, data);
 }
 
 export function delData(data) {
@@ -20,4 +27,8 @@ export function delData(data) {
 
 export function editData(data) {
 	return post(`${path}/update`, data);
+}
+
+export function getDataById(id) {
+	return get(`${path}/getOne`, id);
 }

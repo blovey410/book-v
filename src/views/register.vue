@@ -19,7 +19,7 @@
 <script setup>
 import { ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router';
-import { register } from '@/api/user';
+import { addUser } from '@/api/user';
 import { reactive, ref } from 'vue';
 
 const router = useRouter();
@@ -37,7 +37,7 @@ const rules = {
 function toRegister(formEl) {
 	formEl.validate(async (valid) => {
 		if (valid) {
-			const res = await register(form);
+			const res = await addUser(form);
 			if (!res.success) {
 				ElMessage.error(res.msg);
 				return;

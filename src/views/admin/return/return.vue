@@ -1,24 +1,14 @@
 <template>
 	<div>
 		<div>
-			<el-button @click="addDialog = true">添加图书</el-button>
+			<el-button @click="addDialog = true">归还图书</el-button>
 		</div>
 		<el-table :data="tableData.records">
 			<el-table-column prop="name" label="图书名称" />
-			<el-table-column prop="author" label="图书作者" />
-			<el-table-column prop="img_url" label="图书封面" width="200">
-				<template #default="scope">
-					<el-image
-						style="width: 80px; height: 50px"
-						:src="prefix + '/book/preview?url=' + scope.row.img_url"
-					/>
-				</template>
-			</el-table-column>
-			<el-table-column prop="num" label="图书数量" />
-			<el-table-column prop="info" label="图书简介" />
-			<el-table-column prop="create" label="出版社" />
-			<el-table-column prop="theme" label="题名主题" />
-			<el-table-column prop="create_time" label="创建时间" />
+			<el-table-column prop="num" label="归还数量" />
+			<el-table-column prop="user" label="归还人" />
+			<el-table-column prop="createTime" label="归还时间" />
+			<el-table-column prop="status" label="归还状态" />
 			<el-table-column label="操作">
 				<template #default="scope">
 					<el-button size="small" @click="openEdit(scope.row.id)"
@@ -30,6 +20,7 @@
 				</template>
 			</el-table-column>
 		</el-table>
+
 		<el-dialog
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
@@ -39,47 +30,29 @@
 			:before-close="resetForm"
 		>
 			<el-form
-				:model="formBook"
+				:model="formData"
 				label-width="120px"
 				:rules="rules"
 				ref="formRef"
 			>
 				<el-form-item label="图书名称" prop="name">
-					<el-input v-model="formBook.name" />
-				</el-form-item>
-				<el-form-item label="图书作者" prop="author">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="封面上传" prop="img_url">
-					<el-upload
-						v-model:file-list="covers"
-						:action="uploadUrl"
-						:headers="{ Token: token }"
-						list-type="picture-card"
-						:limit="1"
-						:on-success="coversSuccess"
-					>
-						<el-icon>
-							<Plus />
-						</el-icon>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="图书数量" prop="num">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="图书简介" prop="info">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="出版社" prop="create">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="题名主题" prop="theme">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="图书分类" prop="classification">
-					<el-select v-model="formBook.classification">
+					<el-select v-model="formData.bookId"
+						>i
 						<el-option
-							v-for="(item, index) in tagList"
+							v-for="(item, index) in bookList"
+							:key="index"
+							:label="item.name"
+							:value="item.id"
+						/>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="归还数量" prop="num">
+					<el-input v-model="formData.num" />
+				</el-form-item>
+				<el-form-item label="归还人" prop="user">
+					<el-select v-model="formData.userId">
+						<el-option
+							v-for="(item, index) in userList"
 							:key="index"
 							:label="item.name"
 							:value="item.id"
@@ -101,47 +74,29 @@
 			:before-close="resetForm"
 		>
 			<el-form
-				:model="formBook"
+				:model="formData"
 				label-width="120px"
 				:rules="rules"
 				ref="formRef"
 			>
 				<el-form-item label="图书名称" prop="name">
-					<el-input v-model="formBook.name" />
-				</el-form-item>
-				<el-form-item label="图书作者" prop="author">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="封面上传" prop="img_url">
-					<el-upload
-						v-model:file-list="covers"
-						:action="uploadUrl"
-						:headers="{ Token: token }"
-						list-type="picture-card"
-						:limit="1"
-						:on-success="coversSuccess"
-					>
-						<el-icon>
-							<Plus />
-						</el-icon>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="图书数量" prop="num">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="图书简介" prop="info">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="出版社" prop="create">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="题名主题" prop="theme">
-					<el-input v-model="formBook.author" />
-				</el-form-item>
-				<el-form-item label="图书分类" prop="classification">
-					<el-select v-model="formBook.classification">
+					<el-select v-model="formData.bookId"
+						>i
 						<el-option
-							v-for="(item, index) in tagList"
+							v-for="(item, index) in bookList"
+							:key="index"
+							:label="item.name"
+							:value="item.id"
+						/>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="归还数量" prop="num">
+					<el-input v-model="formData.num" />
+				</el-form-item>
+				<el-form-item label="归还人" prop="user">
+					<el-select v-model="formData.userId">
+						<el-option
+							v-for="(item, index) in userList"
 							:key="index"
 							:label="item.name"
 							:value="item.id"
@@ -149,7 +104,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="add(formRef)">添加</el-button>
+					<el-button type="primary" @click="edit(formRef)">修改</el-button>
 					<el-button @click="resetForm">取消</el-button>
 				</el-form-item>
 			</el-form>
@@ -159,38 +114,56 @@
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
-import { Plus } from '@element-plus/icons-vue';
-import { ElMessage } from 'element-plus';
-import { useUserStore } from '@/stores/userStores';
-import { addData, addData, getAllList, editData } from '@/api/borrow';
-const prefix = import.meta.env.VITE_TEST_URL;
-const store = useUserStore();
-const token = store.getToken();
+import { ElMessage,ElMessageBox } from 'element-plus';
+import { queryList } from "@/api/book";
+import {
+	addData,
+	getDataById,
+	getAllList,
+	editData,
+	delData,
+} from '@/api/borrow';
+import { getUserList } from '@/api/user';
 const addDialog = ref(false);
-const tagList = ref([]);
-// 文件上传路径
+const editDialog = ref(false);
 const tableData = reactive({
 	records: [],
 	pages: 0,
-	page: 1,
+	current: 1,
 	size: 10,
-	type: 5, // 查询普通用户
+	total: 0,
 });
-const isShow = ref(true);
+
+const formData = ref({});
+const formRef = ref()
+const userList = ref([])
+const bookList = ref([])
+const rules = {
+	bookId: [{ required: true, message: '请选择归还的图书', trigger: 'blur' }],
+	userId: [{ required: true, message: '请选择归还人', trigger: 'blur' }],
+};
 
 // 数据加载
-const loadData = () => {
-	getAllList(tableData).then((res) => {
-		tableData.records = res.records;
-		tableData.pages = res.pages;
+const loadData = async () => {
+	const res = await getAllList({
+		current: tableData.current,
+		size: tableData.size,
+		type: 2, // 归还状态
 	});
+	if (!res.success) {
+		ElMessage.error('查询失败');
+	}
+	tableData.records = res.data.records;
+	tableData.current = res.data.current;
+	tableData.pages = res.data.pages;
+	tableData.total = res.data.total;
 };
 
 // 添加归还记录
 const add = (formRef) => {
 	formRef.value.validate((valid) => {
 		if (valid) {
-			addData(formBook).then((res) => {
+			addData(formData).then((res) => {
 				if (res.code === 200) {
 					ElMessage.success('添加成功');
 					addDialog.value = false;
@@ -207,18 +180,76 @@ const add = (formRef) => {
 
 // 删除归还记录
 const deleted = (id) => {
-	addData(id).then((res) => {
-		if (res.code === 200) {
-			ElMessage.success('删除成功');
-			loadData();
-		} else {
-			ElMessage.error('删除失败');
+	ElMessageBox.confirm('确认要删除该记录?', 'Warning', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+		const res = await delData({ id });
+		if (!res.success) {
+			ElMessage.error(res.msg);
+			return;
 		}
+		ElMessage.success('删除成功');
+		loadData();
 	});
 };
 
+// 修改归还记录
+const openEdit = async (id) => {
+	let res = await getDataById(id);
+	if (res.code === 200) {
+		formData = res.data;
+		addDialog.value = true;
+	} else {
+		ElMessage.error('获取失败');
+	}
+};
+
+const edit = async () => {
+	const res = await editData(formData);
+	if (res.code === 200) {
+		ElMessage.success('修改成功');
+		addDialog.value = false;
+		loadData();
+	} else {
+		ElMessage.error('修改失败');
+	}
+};
+const getUsers = async () => {
+	const res = await getUserList();
+	if (res.success) {
+		userList.value = res.data;
+	} else {
+		ElMessage.error(res.msg);
+		return;
+	}
+};
+
+const resetForm = () => {
+	if (addDialog.value) {
+		addDialog.value = false;
+	}
+	if (editDialog.value) {
+		editDialog.value = false;
+	}
+	formData.value={};
+};
+
+const getBooks = async() => {
+	const res = await queryList();
+	if (res.success) {
+		bookList.value = res.data;
+	} else {
+		ElMessage.error(res.msg);
+		return;
+	}
+}
+
 onMounted(() => {
 	loadData();
+	getUsers();
+	getBooks();
 });
 </script>
 

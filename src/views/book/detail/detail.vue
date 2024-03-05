@@ -8,37 +8,46 @@
 				fit="cover"
 			>
 			</el-image>
-			<div class="flex flex-col w-1/4 justify-center text-2xl">
+			<div class="flex flex-col w-1/3 justify-center text-2xl">
+				<span>编号：{{ bookDetail.id }}</span>
 				<span>书名：{{ bookDetail.name }}</span>
 				<span>作者：{{ bookDetail.author }}</span>
-				<span>编号：{{ bookDetail.id }}</span>
-				<span>出版社：{{ bookDetail.create }}</span>
+				<span>出版社：{{ bookDetail.press }}</span>
 				<span>简介：{{ bookDetail.info }}</span>
-				<el-button type="primary" class="mt-5">借阅</el-button>qq
+				<span>小说主题：{{ bookDetail.theme }}</span>
+				<el-button type="primary" class="mt-5" @click="openBorrow"
+					>借阅</el-button
+				>
 			</div>
 		</div>
 	</div>
+	<Borrow :dialogVisible="dialogVisible" :bookId="id" />
 </template>
 
 <script setup>
 import Header from '@/components/Header.vue';
+import Borrow from '@/components/Borrow.vue';
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-const router = useRouter();
+import { queryBook } from '@/api/book';
+
+const dialogVisible = ref(false);
 const route = useRoute();
 // 获取图书编号
 const id = route.query.id;
-const bookDetail = ref({
-	name: '三国演义',
-	author: '罗贯中',
-	id: '1523',
-	create: '新华出版社',
-	imgUrl: '',
-	info: '描写了从东汉末年到西晋初年之间近百年的历史风云，以描写战争为主，诉说了东汉末年的群雄割据混战和魏、蜀、吴三国之间的政治和军事斗争，最终司马炎一统三国，建立晋朝的故事',
-});
+const bookDetail = ref({});
 
 // 获取图书详情
-const getBookDetail = async (id) => {};
+const getBookDetail = async (id) => {
+	const res = await queryBook({ id });
+	bookDetail.value = res.data;
+};
+
+// 打开借阅弹窗
+const openBorrow = () => {
+	dialogVisible.value = true;  
+};
+
 onMounted(() => {
 	getBookDetail(id);
 });

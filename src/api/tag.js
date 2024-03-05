@@ -15,7 +15,7 @@ export function getTagList() {
  * @returns {*}
  */
 export function getTagPage(params) {
-	return get('/tag/list', params);
+	return get('/tag/page', params);
 }
 
 /**
