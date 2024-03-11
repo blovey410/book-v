@@ -1,6 +1,9 @@
 <template>
 	<div>
 		<div>
+			<el-input placeholder="请输入仓库名称" v-model="tableData.search" style="width: 240px; margin-right: 10px" />
+      <el-button type="primary" @click="findByParam()">查询</el-button>
+      <el-button type="success" @click="resetParam()">重置</el-button>
 			<el-button @click="addDialog = true">添加图书</el-button>
 		</div>
 		<el-table :data="tableData.records">
@@ -48,12 +51,6 @@
 				@current-change="handleCurrentChange"
 			/>
 		</div>
-		<Pagination
-			:size="tableData.size"
-			:current="tableData.current"
-			:pages="tableData.pages"
-			:total="tableData.total"
-		/>
 		<el-dialog
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
@@ -195,7 +192,6 @@ import {
 	queryPage,
 	updateById,
 } from '@/api/book';
-import Pagination from '@/components/pagination/Pagination.vue';
 const addDialog = ref(false);
 const tagList = ref([]);
 const prefix = import.meta.env.VITE_TEST_URL;
@@ -208,8 +204,14 @@ const tableData = reactive({
 	current: 1,
 	size: 10,
 	total: 0,
+	search: '',
 });
+// 查询相关
+const findByParam = ()=>{
+	loadData();
+}
 
+//上传相关
 const coversSuccess = (response) => {
 	if (response.success) {
 		formBook.value.imgUrl = response.msg;
@@ -285,6 +287,7 @@ const loadData = async () => {
 	let res = await queryPage({
 		current: tableData.current,
 		size: tableData.size,
+		search: tableData.search,
 	});
 	if (res.success) {
 		tableData.records = res.data.records;

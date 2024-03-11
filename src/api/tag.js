@@ -41,7 +41,7 @@ export function updaTetag(tag) {
  * @param id
  */
 export function deletedTag(id) {
-	return deleted('/tag/delete', { id });
+	return deleted('/tag/delete', id);
 }
 
 /**

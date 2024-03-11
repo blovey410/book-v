@@ -8,11 +8,17 @@
 			<el-table-column prop="num" label="归还数量" />
 			<el-table-column prop="user" label="归还人" />
 			<el-table-column prop="createTime" label="归还时间" />
-			<el-table-column prop="status" label="归还状态" />
+			<el-table-column prop="status" label="归还状态">
+				<template #default="scope">
+					<el-tag :type="scope.row.status==='未归还'?'danger':'success'">
+						{{ scope.row.status }}
+					</el-tag>
+				</template>
+			</el-table-column>
 			<el-table-column label="操作">
 				<template #default="scope">
 					<el-button size="small" @click="openEdit(scope.row.id)"
-						>归还
+						>查看
 					</el-button>
 					<el-button size="small" @click="deleted(scope.row.id)" type="danger"
 						>删除
@@ -20,7 +26,20 @@
 				</template>
 			</el-table-column>
 		</el-table>
-
+		<div class="example-pagination-block">
+			<el-pagination
+				layout="sizes, total, ->, prev, pager, next"
+				:page-size="tableData.size"
+				:current-page="tableData.current"
+				:page-count="tableData.pages"
+				:total="tableData.total"
+				:page-sizes="[10, 20, 50, 100]"
+				@prev-click="preClick"
+				@next-click="nextclick"
+				@size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+			/>
+		</div>
 		<el-dialog
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
@@ -36,8 +55,7 @@
 				ref="formRef"
 			>
 				<el-form-item label="图书名称" prop="name">
-					<el-select v-model="formData.bookId"
-						>i
+					<el-select v-model="formData.bookId">
 						<el-option
 							v-for="(item, index) in bookList"
 							:key="index"
@@ -54,7 +72,7 @@
 						<el-option
 							v-for="(item, index) in userList"
 							:key="index"
-							:label="item.name"
+							:label="item.username"
 							:value="item.id"
 						/>
 					</el-select>
@@ -69,7 +87,7 @@
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
 			v-model="editDialog"
-			title="修改"
+			title="查看"
 			width="30%"
 			:before-close="resetForm"
 		>
@@ -80,8 +98,7 @@
 				ref="formRef"
 			>
 				<el-form-item label="图书名称" prop="name">
-					<el-select v-model="formData.bookId"
-						>i
+					<el-select v-model="formData.bookId" :disabled="true">
 						<el-option
 							v-for="(item, index) in bookList"
 							:key="index"
@@ -91,20 +108,19 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="归还数量" prop="num">
-					<el-input v-model="formData.num" />
+					<el-input v-model="formData.num" :disabled="true" />
 				</el-form-item>
 				<el-form-item label="归还人" prop="user">
-					<el-select v-model="formData.userId">
+					<el-select v-model="formData.userId" :disabled="true">
 						<el-option
 							v-for="(item, index) in userList"
 							:key="index"
-							:label="item.name"
+							:label="item.username"
 							:value="item.id"
 						/>
 					</el-select>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="edit(formRef)">修改</el-button>
 					<el-button @click="resetForm">取消</el-button>
 				</el-form-item>
 			</el-form>
@@ -114,10 +130,10 @@
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
-import { ElMessage,ElMessageBox } from 'element-plus';
-import { queryList } from "@/api/book";
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { queryList } from '@/api/book';
 import {
-	addData,
+	returnData,
 	getDataById,
 	getAllList,
 	editData,
@@ -135,9 +151,9 @@ const tableData = reactive({
 });
 
 const formData = ref({});
-const formRef = ref()
-const userList = ref([])
-const bookList = ref([])
+const formRef = ref({});
+const userList = ref([]);
+const bookList = ref([]);
 const rules = {
 	bookId: [{ required: true, message: '请选择归还的图书', trigger: 'blur' }],
 	userId: [{ required: true, message: '请选择归还人', trigger: 'blur' }],
@@ -161,9 +177,9 @@ const loadData = async () => {
 
 // 添加归还记录
 const add = (formRef) => {
-	formRef.value.validate((valid) => {
+	formRef.validate((valid) => {
 		if (valid) {
-			addData(formData).then((res) => {
+			returnData(formData.value).then((res) => {
 				if (res.code === 200) {
 					ElMessage.success('添加成功');
 					addDialog.value = false;
@@ -197,23 +213,12 @@ const deleted = (id) => {
 
 // 修改归还记录
 const openEdit = async (id) => {
-	let res = await getDataById(id);
+	let res = await getDataById({ id });
 	if (res.code === 200) {
-		formData = res.data;
-		addDialog.value = true;
+		formData.value = res.data;
+		editDialog.value = true;
 	} else {
 		ElMessage.error('获取失败');
-	}
-};
-
-const edit = async () => {
-	const res = await editData(formData);
-	if (res.code === 200) {
-		ElMessage.success('修改成功');
-		addDialog.value = false;
-		loadData();
-	} else {
-		ElMessage.error('修改失败');
 	}
 };
 const getUsers = async () => {
@@ -225,7 +230,23 @@ const getUsers = async () => {
 		return;
 	}
 };
-
+// 分页相关
+const preClick = async () => {
+	tableData.current--;
+	await loadData();
+};
+const nextclick = async () => {
+	tableData.current++;
+	await loadData();
+};
+const handleSizeChange = async (size) => {
+	tableData.size = size;
+	await loadData();
+};
+const handleCurrentChange = async (current) => {
+	tableData.current = current;
+	await loadData();
+};
 const resetForm = () => {
 	if (addDialog.value) {
 		addDialog.value = false;
@@ -233,10 +254,10 @@ const resetForm = () => {
 	if (editDialog.value) {
 		editDialog.value = false;
 	}
-	formData.value={};
+	formData.value = {};
 };
 
-const getBooks = async() => {
+const getBooks = async () => {
 	const res = await queryList();
 	if (res.success) {
 		bookList.value = res.data;
@@ -244,7 +265,7 @@ const getBooks = async() => {
 		ElMessage.error(res.msg);
 		return;
 	}
-}
+};
 
 onMounted(() => {
 	loadData();

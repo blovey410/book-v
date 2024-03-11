@@ -32,11 +32,7 @@ export function deleted(url, params) {
 axios.interceptors.request.use(
 	function (config) {
 		// 在发送请求之前做些什么
-		const userStore = useUserStore();
-		const token = userStore.getToken();
-		if (token) {
-			config.headers['token'] = token;
-		}
+		
 		return config;
 	},
 	function (error) {

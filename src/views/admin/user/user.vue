@@ -30,7 +30,20 @@
 				</template>
 			</el-table-column>
 		</el-table>
-
+		<div class="example-pagination-block">
+			<el-pagination
+				layout="sizes, total, ->, prev, pager, next"
+				:page-size="tableData.size"
+				:current-page="tableData.current"
+				:page-count="tableData.pages"
+				:total="tableData.total"
+				:page-sizes="[10, 20, 50, 100]"
+				@prev-click="preClick"
+				@next-click="nextclick"
+				@size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+			/>
+		</div>
 		<el-dialog
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
@@ -125,7 +138,7 @@ import {
 	addUser,
 	deletedUser,
 	getUserById,
-	getUserList,
+	getUserPage,
 	updateUser,
 } from '@/api/user';
 const tableData = reactive({
@@ -213,16 +226,33 @@ const resetForm = () => {
 	}
 	formUser.value = {};
 };
-
+// 分页相关
+const preClick = async () => {
+	tableData.current--;
+	await loadData();
+};
+const nextclick = async () => {
+	tableData.current++;
+	await loadData();
+};
+const handleSizeChange = async (size) => {
+	tableData.size = size;
+	await loadData();
+};
+const handleCurrentChange = async (current) => {
+	tableData.current = current;
+	await loadData();
+};
 const loadData = async () => {
-	const res = await getUserList({
-		page: tableData.page,
+	const res = await getUserPage({
+		current: tableData.current,
 		size: tableData.size,
 	});
 	if (res.success) {
-		tableData.records = res.data;
-		tableData.page = res.data.pageNum;
+		tableData.records = res.data.records;
+		tableData.current = res.data.current;
 		tableData.pages = res.data.pages;
+		tableData.total = res.data.total;
 	}
 };
 onMounted(() => {

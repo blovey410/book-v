@@ -17,6 +17,11 @@ export function login(user) {
 	return post('/user/login', user);
 }
 
+export function getUserPage(data) {
+	return get('/user/page', data);
+
+}
+
 /**
  * 查询用户列表
  * @param {*} data

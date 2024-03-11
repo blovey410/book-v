@@ -4,7 +4,7 @@
 		<div class="flex justify-evenly mt-10">
 			<el-image
 				style="width: 50%; height: 500px"
-				:src="bookDetail.imgUrl"
+				:src="prefix + bookDetail.imgUrl"
 				fit="cover"
 			>
 			</el-image>
@@ -33,6 +33,7 @@ import { queryBook } from '@/api/book';
 
 const dialogVisible = ref(false);
 const route = useRoute();
+const prefix = import.meta.env.VITE_TEST_URL + '/uploads/';
 // 获取图书编号
 const id = route.query.id;
 const bookDetail = ref({});

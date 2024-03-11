@@ -33,8 +33,9 @@ const store = useUserStore();
 const user = store.getUserInfo();
 // const dialogVisible = toRef(props, 'dialogVisible');
 const dialogVisible = ref(props.dialogVisible);
+const bookId = toRef(props, 'bookId');
 const formBorrow = ref({
-	bookId: props.bookId,
+	bookId: bookId,
 	userId: user.id,
 	num: 1,
 });

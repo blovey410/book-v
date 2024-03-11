@@ -14,7 +14,7 @@ export function getListAllComments(data) {
 }
 
 export function delComment(data) {
-	return get('/comment/delete', data);
+	return deleted('/comment/delete', data);
 }
 
 export function getCommentById(id) {

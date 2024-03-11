@@ -30,6 +30,26 @@ const router = createRouter({
 					name: 'search',
 					component: () => import('@/views/book/search/search.vue'),
 				},
+				{
+					path: '/me',
+					name: 'me',
+					component: () => import('@/views/book/me/me.vue'),
+				},
+				{
+					path: '/aboutMe',
+					name: 'aboutMe',
+					component: () => import('@/views/book/about-me/aboutMe.vue'),
+				},
+				{
+					path: '/announcement',
+					name: 'announcement',
+					component: () => import('@/views/book/announcement/announcement.vue'),
+				},
+				{
+					path: 'more',
+					nname: 'more',
+					component: () => import('@/views/book/more/more.vue'),
+				},
 			],
 		},
 		//后台模块
@@ -68,6 +88,11 @@ const router = createRouter({
 					path: '/admin/comment',
 					name: 'comment',
 					component: () => import('@/views/admin/comment/comment.vue'),
+				},
+				{
+					path: '/admin/recommend',
+					name: 'recommend',
+					component: () => import('@/views/admin/recommend/recommend.vue'),
 				},
 			],
 		},

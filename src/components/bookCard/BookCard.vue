@@ -19,7 +19,7 @@ const getInfo = (id) => {
 		<el-card
 			class="flex justify-center"
 			shadow="hover"
-			style="width: 150px"
+			style="width: 150px; height: 200px;"
 			:body-style="{ padding: '0px' }"
 			@click="getInfo(item.id)"
 		>

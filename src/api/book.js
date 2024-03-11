@@ -1,15 +1,15 @@
-import { get, post } from '@/api/client';
+import {deleted, get, post } from '@/api/client';
 
 const pre = '/book';
 
 export const queryPage = (data) => {
-	return get(pre + '/page', data);
+	return get(pre + '/findPage', data);
 };
 export const addBook = (data) => {
 	return post(pre + '/save', data);
 };
 export const deleteBook = (id) => {
-	return get(pre + '/delete', id);
+	return deleted(pre + '/delete', id);
 };
 export const updateById = (data) =>{
 	return post(pre + '/updateById', data)
@@ -26,8 +26,8 @@ export const queryBookByLogin = () => {
 export const getHotBook = () => {
 	return get(pre + '/hot');
 }
-export const getSearch = () => {
-	return get(pre + '/search');
+export const getSearch = (data) => {
+	return get(pre + '/search', data);
 }
 // 文件上传
 export const upload = (data) => {

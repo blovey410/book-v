@@ -17,7 +17,20 @@
 				</template>
 			</el-table-column>
 		</el-table>
-
+		<div class="example-pagination-block">
+			<el-pagination
+				layout="sizes, total, ->, prev, pager, next"
+				:page-size="tableData.size"
+				:current-page="tableData.current"
+				:page-count="tableData.pages"
+				:total="tableData.total"
+				:page-sizes="[10, 20, 50, 100]"
+				@prev-click="preClick"
+				@next-click="nextclick"
+				@size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+			/>
+		</div>
 		<el-dialog
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
@@ -142,7 +155,7 @@ const deleted = async (id) => {
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
-		const res = await deletedTag(id);
+		const res = await deletedTag({id});
 		if (res.success) {
 			ElMessage.success('删除完成');
 		} else {
@@ -160,7 +173,23 @@ const resetForm = () => {
 	}
 	formData.value = {};
 };
-
+// 分页相关
+const preClick = async () => {
+	tableData.current--;
+	await loadData();
+};
+const nextclick = async () => {
+	tableData.current++;
+	await loadData();
+};
+const handleSizeChange = async (size) => {
+	tableData.size = size;
+	await loadData();
+};
+const handleCurrentChange = async (current) => {
+	tableData.current = current;
+	await loadData();
+};
 const loadData = async () => {
 	const res = await getTagPage({
 		current: tableData.current,
@@ -170,6 +199,7 @@ const loadData = async () => {
 		tableData.records = res.data.records;
 		tableData.current = res.data.pageNum;
 		tableData.pages = res.data.pages;
+		tableData.total = res.data.total;
 	}
 };
 

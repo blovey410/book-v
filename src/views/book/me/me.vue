@@ -1,13 +1,11 @@
 <template>
-	<div class="me">
+	<Header />
+	<div class="me main">
 		<div class="me-header">
-			<div>
-				<el-avatar :size="120" :src="imageUrl + userInfo.avatar" />
-			</div>
 			<div class="me-header-right">
 				<div class="me-header-right-top text-black">
 					<div class="name">用户名：{{ userInfo.username }}</div>
-					<div class="name">手机号：{{ userInfo.phone }}</div>
+					<div class="name">手机号：{{ userInfo.telephone }}</div>
 					<div class="name">
 						用户等级：{{ userInfo.level === 1 ? '管理员' : '普通用户' }}
 					</div>
@@ -27,11 +25,11 @@
 							'text-xl',
 							'hover:text-white',
 							'cursor-pointer',
-							activeTab === 'collection' ? 'text-black' : 'text-gray-400',
+							activeTab === 'myBorrow' ? 'text-black' : 'text-gray-400',
 						]"
-						@click="activeTab = 'collection'"
+						@click="activeTab = 'myBorrow'"
 					>
-						收藏
+						我的借阅
 					</div>
 					<div
 						:class="[
@@ -39,42 +37,42 @@
 							'text-xl',
 							'hover:text-white',
 							'cursor-pointer',
-							activeTab === 'myfile' ? 'text-black' : 'text-gray-400',
+							activeTab === 'myReturn' ? 'text-black' : 'text-gray-400',
 						]"
-						@click="activeTab = 'myfile'"
+						@click="activeTab = 'myReturn'"
 					>
-						我的共享
+						我的归还
 					</div>
 				</div>
 				<div></div>
 			</div>
 			<div class="">
-				<collection v-if="activeTab === 'collection'" />
-				<myfile v-if="activeTab === 'myfile'" />
+				<my-borrow v-if="activeTab === 'myBorrow'" />
+				<my-return v-if="activeTab === 'myReturn'" />
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue';
-import Collection from '@/views/film/me/collection.vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useUserStore } from '@/stores/userStores';
-import Myfile from '@/views/film/me/myfile.vue';
+import MyReturn from './MyReturn.vue';
+import MyBorrow from './MyBorrow.vue';
+import Header from '@/components/Header.vue';
 
 const route = useRoute();
 const userStore = useUserStore();
-const imageUrl = import.meta.env.VITE_TEST_URL + '/file/preview?url=';
-const activeTab = ref(route.query.tab || 'collection');
+
+const activeTab = ref(route.query.tab || 'myBorrow');
 
 const userInfo = reactive({
 	username: userStore.getUserInfo().username,
-	phone: userStore.getUserInfo().phone,
+	telephone: userStore.getUserInfo().telephone,
 	level: userStore.getUserInfo().role,
 	avatar: userStore.getUserInfo().avatar,
 	email: userStore.getUserInfo().email,
-	likeCount: 0,
 });
 
 const works = reactive([]);
@@ -83,11 +81,6 @@ onMounted(() => {});
 </script>
 
 <style scoped lang="less">
-.me {
-	//margin: 0 auto;
-	//width: 70%;
-}
-
 // 抽取.me-header 样式
 .me-header {
 	display: flex;
