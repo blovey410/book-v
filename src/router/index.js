@@ -40,16 +40,11 @@ const router = createRouter({
 					name: 'aboutMe',
 					component: () => import('@/views/book/about-me/aboutMe.vue'),
 				},
-				{
-					path: '/announcement',
-					name: 'announcement',
-					component: () => import('@/views/book/announcement/announcement.vue'),
-				},
-				{
-					path: 'more',
-					nname: 'more',
-					component: () => import('@/views/book/more/more.vue'),
-				},
+				// {
+				// 	path: '/announcement',
+				// 	name: 'announcement',
+				// 	component: () => import('@/views/book/announcement/announcement.vue'),
+				// },
 			],
 		},
 		//后台模块
@@ -64,11 +59,11 @@ const router = createRouter({
 					name: 'book',
 					component: () => import('@/views/admin/book/book.vue'),
 				},
-				{
-					path: '/admin/tag',
-					name: 'tag',
-					component: () => import('@/views/admin/tag/tag.vue'),
-				},
+				// {
+				// 	path: '/admin/tag',
+				// 	name: 'tag',
+				// 	component: () => import('@/views/admin/tag/tag.vue'),
+				// },
 				{
 					path: '/admin/user',
 					name: 'user',
@@ -89,11 +84,11 @@ const router = createRouter({
 					name: 'comment',
 					component: () => import('@/views/admin/comment/comment.vue'),
 				},
-				{
-					path: '/admin/recommend',
-					name: 'recommend',
-					component: () => import('@/views/admin/recommend/recommend.vue'),
-				},
+				// {
+				// 	path: '/admin/recommend',
+				// 	name: 'recommend',
+				// 	component: () => import('@/views/admin/recommend/recommend.vue'),
+				// },
 			],
 		},
 		{
