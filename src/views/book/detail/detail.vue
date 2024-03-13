@@ -46,7 +46,7 @@ const getBookDetail = async (id) => {
 
 // 打开借阅弹窗
 const openBorrow = () => {
-	dialogVisible.value = true;  
+	dialogVisible.value = true;
 };
 
 onMounted(() => {

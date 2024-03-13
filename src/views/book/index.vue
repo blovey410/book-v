@@ -15,8 +15,8 @@
 		<div
 			style="
 				display: grid;
-				grid-gap: 10px 62px;
 				grid-template-columns: repeat(6, 1fr);
+				height: 300px;
 			"
 		>
 			<BookCard v-for="item in bookList" :key="item" :item="item" />
@@ -24,7 +24,7 @@
 		<!--	热门书籍-->
 		<h1 class="text-slate-800">本周热门推荐</h1>
 		<div v-for="(item, index) in adminList" :key="index" :item="item">
-			<el-link type="primary" :href="item.url">{{item.title}}</el-link>
+			<el-link type="primary" :href="item.url" >{{ item.title }}</el-link>
 		</div>
 
 		<!--	留言板块-->
@@ -35,9 +35,14 @@
 			type="textarea"
 			placeholder="Please input"
 		/>
-		<el-button type="primary" class="float-right mt-2" @click="submit()"
-			>留言</el-button
-		>
+		<div class="flex justify-between">
+			<el-button type="primary" class="float-right mt-2" @click="find()"
+				>查看留言
+			</el-button>
+			<el-button type="primary" class="float-right mt-2" @click="submit()"
+				>留言
+			</el-button>
+		</div>
 	</div>
 </template>
 
@@ -55,7 +60,10 @@ import lunbo3 from '@/assets/image/bg2.jpg';
 import lunbo4 from '@/assets/image/bg3.jpg';
 import lunbo5 from '@/assets/image/bg4.jpg';
 import { useUserStore } from '@/stores/userStores';
+import { useRouter } from 'vue-router';
+
 const userStore = useUserStore();
+const router = useRouter();
 const user = userStore.getUserInfo();
 // 轮播图片列表
 const list = [
@@ -100,6 +108,10 @@ const submit = async () => {
 	}
 };
 
+const find = () => {
+	router.push({ path: '/comment' });
+};
+
 const loadData = async () => {
 	let res = await getHotBook();
 	if (res.success) {
@@ -121,6 +133,7 @@ h1 {
 	font-weight: 700;
 	margin: 0;
 }
+
 .el-carousel__item h3 {
 	color: #475669;
 	opacity: 0.75;

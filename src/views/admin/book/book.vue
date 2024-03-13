@@ -1,9 +1,13 @@
 <template>
 	<div>
 		<div>
-			<el-input placeholder="请输入仓库名称" v-model="tableData.search" style="width: 240px; margin-right: 10px" />
-      <el-button type="primary" @click="findByParam()">查询</el-button>
-      <el-button type="success" @click="resetParam()">重置</el-button>
+			<el-input
+				placeholder="请输入仓库名称"
+				v-model="tableData.search"
+				style="width: 240px; margin-right: 10px"
+			/>
+			<el-button type="primary" @click="findByParam()">查询</el-button>
+			<el-button type="success" @click="resetParam()">重置</el-button>
 			<el-button @click="addDialog = true">添加图书</el-button>
 		</div>
 		<el-table :data="tableData.records">
@@ -46,7 +50,7 @@
 				:total="tableData.total"
 				:page-sizes="[10, 20, 50, 100]"
 				@prev-click="preClick"
-				@next-click="nextclick"
+				@next-click="nextClick"
 				@size-change="handleSizeChange"
 				@current-change="handleCurrentChange"
 			/>
@@ -207,9 +211,9 @@ const tableData = reactive({
 	search: '',
 });
 // 查询相关
-const findByParam = ()=>{
+const findByParam = () => {
 	loadData();
-}
+};
 
 //上传相关
 const coversSuccess = (response) => {
@@ -219,6 +223,10 @@ const coversSuccess = (response) => {
 };
 const uploadfail = () => {
 	ElMessage.error('上传失败');
+};
+const resetParam = () => {
+	tableData.search = '';
+	loadData();
 };
 
 const formRef = ref();
@@ -320,7 +328,7 @@ const preClick = async () => {
 	tableData.current--;
 	await loadData();
 };
-const nextclick = async () => {
+const nextClick = async () => {
 	tableData.current++;
 	await loadData();
 };

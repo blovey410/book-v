@@ -19,7 +19,7 @@
 						opacity="0.8"
 						active-text-color="#ffd04b"
 						:router="true"
-						style="font-size: 24px;"
+						style="font-size: 24px"
 					>
 						<el-sub-menu index="/admin">
 							<template #title> 乡村文化图书管理后台 </template>
@@ -27,7 +27,7 @@
 							<el-menu-item index="/admin/book">图书管理</el-menu-item>
 							<el-menu-item index="/admin/tag">分类管理</el-menu-item>
 							<el-menu-item index="/admin/comment">评论管理</el-menu-item>
-							<el-menu-item index="/admin/recommend">公告管理</el-menu-item>
+							<el-menu-item index="/admin/announcement">公告管理</el-menu-item>
 							<el-menu-item index="/admin/borrow">借阅管理</el-menu-item>
 							<el-menu-item index="/admin/return">归还管理</el-menu-item>
 							<el-menu-item index="/admin/recommend">推荐管理</el-menu-item>

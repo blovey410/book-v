@@ -19,16 +19,16 @@ const getInfo = (id) => {
 		<el-card
 			class="flex justify-center"
 			shadow="hover"
-			style="width: 150px; height: 200px;"
+			style="width: 200px; height: 275px"
 			:body-style="{ padding: '0px' }"
 			@click="getInfo(item.id)"
 		>
 			<el-image
-				style="width: 100%; height: 100px; margin-top: 10px"
-				:src="prefix+'/uploads/'+item.imgUrl"
+				style="width: 100%; height: 150px; margin-top: 10px"
+				:src="prefix + '/uploads/' + item.imgUrl"
 				fit="cover"
 			></el-image>
-			<div class="flex flex-col">
+			<div class="flex flex-col" style="font-size: 20px">
 				<span>书名：{{ item.name }}</span>
 				<span>作者：{{ item.author }}</span>
 			</div>

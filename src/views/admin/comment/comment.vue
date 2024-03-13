@@ -180,7 +180,7 @@ const add = async (formRef) => {
 };
 
 const deleted = async (id) => {
-	const res = await delComment({id});
+	const res = await delComment({ id });
 	if (res.success) {
 		ElMessage.success('删除成功');
 		await loadData();

@@ -19,16 +19,13 @@ export function login(user) {
 
 export function getUserPage(data) {
 	return get('/user/page', data);
-
 }
 
 /**
  * 查询用户列表
- * @param {*} data
- * @returns
  */
-export const getUserList = (data) => {
-	return get('/user/list', data);
+export const getUserList = () => {
+	return get('/user/list', );
 };
 
 /**
@@ -39,7 +36,6 @@ export const getUserList = (data) => {
 export const updateUser = (data) => {
 	return post('/user/updateById', data);
 };
-
 
 export const addUser = (data) => {
 	return post('/user/save', data);

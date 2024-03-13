@@ -155,7 +155,7 @@ const deleted = async (id) => {
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
-		const res = await deletedTag({id});
+		const res = await deletedTag({ id });
 		if (res.success) {
 			ElMessage.success('删除完成');
 		} else {

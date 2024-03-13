@@ -10,7 +10,7 @@
 			<el-table-column prop="createTime" label="归还时间" />
 			<el-table-column prop="status" label="归还状态">
 				<template #default="scope">
-					<el-tag :type="scope.row.status==='未归还'?'danger':'success'">
+					<el-tag :type="scope.row.status === '未归还' ? 'danger' : 'success'">
 						{{ scope.row.status }}
 					</el-tag>
 				</template>

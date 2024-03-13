@@ -3,13 +3,13 @@
 		<div class="flex flex-wrap">
 			<div
 				v-for="(item, index) in tableData.records"
-				style="display: flex; flex-direction: column; margin-right: 20px;"
+				style="display: flex; flex-direction: column; margin-right: 20px"
 			>
 				<BookCard :key="index" :item="item" @click.stop="detail(item.bookId)" />
 				<el-tag
 					:hit="true"
 					size="large"
-					style="font-size: larger; margin: 2px 0;"
+					style="font-size: larger; margin: 2px 0"
 					>{{ item.user }}</el-tag
 				>
 				<el-button
@@ -35,7 +35,7 @@ const tableData = reactive({
 
 const router = useRouter();
 const store = useUserStore();
-const userinfo = store.getUserInfo()
+const userinfo = store.getUserInfo();
 const page = async () => {
 	const res = await getBorrowById(userinfo.id, 1);
 	tableData.records = res.data.records;
@@ -44,7 +44,7 @@ const page = async () => {
 const returnBook = async (id) => {
 	const res = await returnData({
 		bookId: id,
-		userId: userinfo.id
+		userId: userinfo.id,
 	});
 	if (res.code === 200) {
 		page();

@@ -6,8 +6,8 @@
 
 		<div class="border w-[77vw]">
 			<el-table max-height="75vh" :data="tableData.records">
-				<el-table-column prop="title" label="标题" />
-				<el-table-column prop="url" label="链接" />
+				<el-table-column prop="title" label="公告标题" />
+				<el-table-column prop="content" label="公告内容" :show-overflow-tooltip="true"/>
 				<el-table-column prop="createTime" label="创建时间" />
 				<el-table-column label="操作">
 					<template #default="scope">
@@ -30,7 +30,7 @@
 				:total="tableData.total"
 				:page-sizes="[10, 20, 50, 100]"
 				@prev-click="preClick"
-				@next-click="nextclick"
+				@next-click="nextClick"
 				@size-change="handleSizeChange"
 				@current-change="handleCurrentChange"
 			/>
@@ -45,11 +45,11 @@
 			:before-close="resetForm"
 		>
 			<el-form :rules="rule" :model="form" label-width="120px">
-				<el-form-item label="标题" prop="title">
+				<el-form-item label="公告标题" prop="title">
 					<el-input v-model="form.title" />
 				</el-form-item>
-				<el-form-item label="链接" prop="url">
-					<el-input v-model="form.url" />
+				<el-form-item label="公告内容" prop="content">
+					<el-input v-model="form.content" />
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="edit">修改</el-button>
@@ -66,11 +66,11 @@
 			:before-close="resetForm"
 		>
 			<el-form :rules="rule" :model="form" label-width="120px">
-				<el-form-item label="标题" prop="title">
+				<el-form-item label="公告标题" prop="title">
 					<el-input v-model="form.title" />
 				</el-form-item>
-				<el-form-item label="链接" prop="url">
-					<el-input v-model="form.url" />
+				<el-form-item label="公告内容" prop="content">
+					<el-input v-model="form.content" />
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="add">添加</el-button>
@@ -85,12 +85,12 @@
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import {
-	getRecommendPage,
-	updateRecommend,
-	deletedRecommend,
-	addRecommend,
-	getRecommendById,
-} from '@/api/recommend';
+	getAnnouncementPage,
+	updateAnnouncement,
+	deletedAnnouncement,
+	addAnnouncement,
+	getAnnouncementById,
+} from '@/api/announcement';
 import { useUserStore } from '@/stores/userStores';
 
 const tableData = reactive({
@@ -98,25 +98,44 @@ const tableData = reactive({
 	pages: 0,
 	current: 1,
 	size: 10,
-	total: 0,
 });
 const form = ref({
-	title: '', //标题
-	url: '', //链接
-	createTime: '', //${column.comment}
+	id: '', //${column.comment}
+	title: '', //公告标题
+	content: '', //公告内容
+	createTime: '', //创建时间
 });
 const rule = ref({
-	title: [{ required: true, message: '标题不能为空', trigger: 'blur' }],
-	url: [{ required: true, message: '链接不能为空', trigger: 'blur' }],
+	title: [{ required: true, message: '公告标题不能为空', trigger: 'blur' }],
+	content: [{ required: true, message: '公告内容不能为空', trigger: 'blur' }],
 });
+const userStore = useUserStore();
+const token = userStore.token;
 const editDialog = ref(false);
 const addDialog = ref(false);
+
+const preClick = async () => {
+	tableData.current--;
+	await loadData();
+};
+const nextClick = async () => {
+	tableData.current++;
+	await loadData();
+};
+const handleSizeChange = async (size) => {
+	tableData.size = size;
+	await loadData();
+};
+const handleCurrentChange = async (current) => {
+	tableData.current = current;
+	await loadData();
+};
 
 /**
  * 打开编辑按钮
  */
 const openEdit = async (id) => {
-	const res = await getRecommendById(id);
+	const res = await getAnnouncementById(id);
 	form.value = res.data;
 	editDialog.value = true;
 };
@@ -125,7 +144,7 @@ const openEdit = async (id) => {
  *修改
  */
 const edit = async () => {
-	const res = await updateRecommend(form.value);
+	const res = await updateAnnouncement(form.value);
 	ElMessage.success('修改成功');
 	editDialog.value = false;
 	loadData();
@@ -136,7 +155,7 @@ const edit = async () => {
  *添加
  */
 const add = async () => {
-	const res = await addRecommend(form.value);
+	const res = await addAnnouncement(form.value);
 	ElMessage.success('添加成功');
 	addDialog.value = false;
 	loadData();
@@ -152,7 +171,7 @@ const deleted = async (id) => {
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
-		const res = await deletedRecommend({ id });
+		const res = await deletedAnnouncement({ id });
 		ElMessage.success('success');
 		loadData();
 	});
@@ -171,32 +190,14 @@ const resetForm = () => {
 	form.value = {};
 };
 
-// 分页相关
-const preClick = async () => {
-	tableData.current--;
-	await loadData();
-};
-const nextclick = async () => {
-	tableData.current++;
-	await loadData();
-};
-const handleSizeChange = async (size) => {
-	tableData.size = size;
-	await loadData();
-};
-const handleCurrentChange = async (current) => {
-	tableData.current = current;
-	await loadData();
-};
 const loadData = async () => {
-	const res = await getRecommendPage({
+	const res = await getAnnouncementPage({
 		current: tableData.current,
 		size: tableData.size,
 	});
 	tableData.records = res.data.records;
 	tableData.current = res.data.current;
 	tableData.pages = res.data.pages;
-	tableData.total = res.data.total;
 };
 onMounted(() => {
 	// 初始加载分页数据

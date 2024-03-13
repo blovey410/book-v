@@ -18,7 +18,7 @@ export function getAllList(data) {
 
 // 查询个人的借阅记录或归还记录
 export function getBorrowById(userId, type) {
-	return get(`${path}/page/${type}/${userId}`, );
+	return get(`${path}/page/${type}/${userId}`);
 }
 
 export function delData(data) {

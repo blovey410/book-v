@@ -40,11 +40,26 @@ const router = createRouter({
 					name: 'aboutMe',
 					component: () => import('@/views/book/about-me/aboutMe.vue'),
 				},
-				// {
-				// 	path: '/announcement',
-				// 	name: 'announcement',
-				// 	component: () => import('@/views/book/announcement/announcement.vue'),
-				// },
+				{
+					path: '/proclamation',
+					name: 'proclamation',
+					component: () => import('@/views/book/proclamation/Proclamation.vue'),
+				},
+				{
+					path: '/info',
+					name: 'info',
+					component: () => import('@/views/book/proclamation/Info.vue'),
+				},
+				{
+					path: '/comment',
+					name: 'commentUser',
+					component: () => import('@/views/book/comment/CommentList.vue'),
+				},
+				{
+					path: '/more',
+					name: 'more',
+					component: () => import('@/views/book/tags/more.vue'),
+				}
 			],
 		},
 		//后台模块
@@ -59,11 +74,11 @@ const router = createRouter({
 					name: 'book',
 					component: () => import('@/views/admin/book/book.vue'),
 				},
-				// {
-				// 	path: '/admin/tag',
-				// 	name: 'tag',
-				// 	component: () => import('@/views/admin/tag/tag.vue'),
-				// },
+				{
+					path: '/admin/tag',
+					name: 'tag',
+					component: () => import('@/views/admin/tag/tag.vue'),
+				},
 				{
 					path: '/admin/user',
 					name: 'user',
@@ -84,11 +99,17 @@ const router = createRouter({
 					name: 'comment',
 					component: () => import('@/views/admin/comment/comment.vue'),
 				},
-				// {
-				// 	path: '/admin/recommend',
-				// 	name: 'recommend',
-				// 	component: () => import('@/views/admin/recommend/recommend.vue'),
-				// },
+				{
+					path: '/admin/recommend',
+					name: 'recommend',
+					component: () => import('@/views/admin/recommend/recommend.vue'),
+				},
+				{
+					path: '/admin/announcement',
+					name: 'announcement',
+					component: () =>
+						import('@/views/admin/announcement/announcement.vue'),
+				},
 			],
 		},
 		{

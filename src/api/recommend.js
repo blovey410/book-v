@@ -1,4 +1,4 @@
-import { deleted, get, post, put } from "@/api/client";
+import { deleted, get, post, put } from '@/api/client';
 
 /**
  * 查询分页列表
@@ -6,7 +6,7 @@ import { deleted, get, post, put } from "@/api/client";
  * @returns
  */
 export const getRecommendPage = (data) => {
-  return get(`/recommend/page`, data);
+	return get(`/recommend/page`, data);
 };
 
 /**
@@ -15,7 +15,7 @@ export const getRecommendPage = (data) => {
  * @returns
  */
 export const updateRecommend = (data) => {
-  return post("/recommend/updateById", data);
+	return post('/recommend/updateById', data);
 };
 
 /**
@@ -24,7 +24,7 @@ export const updateRecommend = (data) => {
  * @returns
  */
 export const addRecommend = (data) => {
-  return post("/recommend/save", data);
+	return post('/recommend/save', data);
 };
 /**
  * 删除
@@ -32,7 +32,7 @@ export const addRecommend = (data) => {
  * @returns
  */
 export const deletedRecommend = (data) => {
-  return deleted("/recommend/delete", data);
+	return deleted('/recommend/delete', data);
 };
 
 /**
@@ -41,7 +41,7 @@ export const deletedRecommend = (data) => {
  * @returns
  */
 export const getRecommendById = (id) => {
-  return get(`/recommend/getOne`, { id });
+	return get(`/recommend/getOne`, { id });
 };
 
 /**
@@ -50,5 +50,5 @@ export const getRecommendById = (id) => {
  * @returns
  */
 export const getRecommendList = () => {
-  return get(`/recommend/list`);
+	return get(`/recommend/list`);
 };

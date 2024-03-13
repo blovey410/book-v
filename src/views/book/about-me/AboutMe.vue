@@ -1,9 +1,9 @@
 <template>
 	<Header />
 	<div class="main" style="padding: 50px 0 0 50px">
-		<h1 style="font-size: 40px; font-weight: 500;">本馆介绍</h1>
+		<h1 style="font-size: 40px; font-weight: 500">本馆介绍</h1>
 		<el-divider />
-		<div style="font-size: 30px;">
+		<div style="font-size: 30px">
 			<p>
 				乡村文化馆，坐落于风景如画的乡村之中，是传承乡村文化、展示乡村风貌的重要场所。馆内陈列着丰富多彩的展品，包括民间手工艺品、历史照片、图书收藏等，每一件展品都承载着深厚的乡村记忆，诉说着乡村的变迁与发展。
 			</p>
@@ -38,7 +38,7 @@ import Header from '@/components/Header.vue';
 .el-divider--horizontal {
 	margin: 5px 0;
 }
-div > p{
-  text-indent: 2em;
+div > p {
+	text-indent: 2em;
 }
 </style>
