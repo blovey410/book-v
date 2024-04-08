@@ -3,16 +3,21 @@ import router from '../router';
 import { ElMessage } from 'element-plus';
 import { useUserStore } from '@/stores/userStores';
 
+const baseURL = axios.create({
+	baseURL: import.meta.env.VITE_TEST_URL,
+	timeout: 10000,
+});
+
 export function get(url, params) {
-	return axios.request({ method: 'get', params, url });
+	return baseURL.request({ method: 'get', params, url });
 }
 
 export function post(url, data) {
-	return axios.request({ method: 'post', data, url });
+	return baseURL.request({ method: 'post', data, url });
 }
 
 export function put(url, data) {
-	return axios.request({
+	return baseURL.request({
 		method: 'put',
 		data,
 		url,
@@ -21,7 +26,7 @@ export function put(url, data) {
 }
 
 export function deleted(url, params) {
-	return axios.request({
+	return baseURL.request({
 		method: 'delete',
 		params,
 		url,
@@ -29,7 +34,7 @@ export function deleted(url, params) {
 }
 
 // 添加请求拦截器
-axios.interceptors.request.use(
+baseURL.interceptors.request.use(
 	function (config) {
 		// 在发送请求之前做些什么
 
@@ -40,9 +45,8 @@ axios.interceptors.request.use(
 		return Promise.reject(error);
 	},
 );
-
 // 添加响应拦截器
-axios.interceptors.response.use(
+baseURL.interceptors.response.use(
 	function (response) {
 		// console.log(response.data);
 		if (response.data.code === 400) {

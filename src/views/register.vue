@@ -6,7 +6,14 @@
 				<el-input v-model="form.username" />
 			</el-form-item>
 			<el-form-item label="密码" prop="password">
-				<el-input type="password" v-model="form.password" />
+				<el-input type="password" v-model="form.password" /> </el-form-item
+			><el-form-item label="性别" prop="sex">
+				<el-input type="text" v-model="form.sex" /> </el-form-item
+			><el-form-item label="电话" prop="telephone">
+				<el-input type="text" v-model="form.telephone" />
+			</el-form-item>
+			<el-form-item label="邮箱" prop="email">
+				<el-input type="text" v-model="form.email" />
 			</el-form-item>
 			<el-form-item>
 				<el-button type="primary" @click="toRegister(formRef)">注册</el-button>
@@ -26,12 +33,18 @@ const router = useRouter();
 const form = reactive({
 	username: '',
 	password: '',
+	sex: '',
+	telephone: '',
+	email: '',
 	role: 2,
 });
 const formRef = ref();
 const rules = {
 	username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
 	password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+	sex: [{ required: true, message: '请选择性别', trigger: 'blur' }],
+	telephone: [{ required: true, message: '请输入电话', trigger: 'blur' }],
+	email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
 };
 
 function toRegister(formEl) {

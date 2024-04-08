@@ -19,6 +19,14 @@
 					</el-tag>
 				</template>
 			</el-table-column>
+			<el-table-column prop="status" label="权限">
+				<template #default="scope">
+					<el-tag v-if="scope.row.status === 1" type="success">正常</el-tag>
+					<el-tag v-else-if="scope.row.status === 0" type="warning"
+						>禁用
+					</el-tag>
+				</template>
+			</el-table-column>
 			<el-table-column label="操作">
 				<template #default="scope">
 					<el-button size="small" @click="openEditUser(scope.row.id)"
@@ -79,6 +87,12 @@
 						<el-option label="普通用户" :value="2" />
 					</el-select>
 				</el-form-item>
+				<el-form-item label="用户权限">
+					<el-select v-model="formUser.status">
+						<el-option label="可借书" :value="1" />
+						<el-option label="禁止借书" :value="0" />
+					</el-select>
+				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="edit(formRef)">更新</el-button>
 					<el-button @click="resetForm">取消</el-button>
@@ -121,6 +135,12 @@
 						<el-option label="普通用户" :value="2" />
 					</el-select>
 				</el-form-item>
+				<el-form-item label="用户权限">
+					<el-select v-model="formUser.status">
+						<el-option label="可借书" :value="1" />
+						<el-option label="禁止借书" :value="0" />
+					</el-select>
+				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="add(formRef)">添加</el-button>
 					<el-button @click="resetForm">取消</el-button>
@@ -141,6 +161,7 @@ import {
 	getUserPage,
 	updateUser,
 } from '@/api/user';
+
 const tableData = reactive({
 	records: [],
 	pages: 0,

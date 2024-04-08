@@ -11,8 +11,7 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import App from './App.vue';
 import router from './router';
 import './assets/main.css';
-import './assets/base.css';
-import axios from 'axios';
+import './assets/base.css'
 
 import dayjs from 'dayjs';
 import dayjsZhCn from 'dayjs/locale/zh-cn';
@@ -29,7 +28,6 @@ const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 app.use(pinia);
 
-axios.defaults.baseURL = import.meta.env.VITE_TEST_URL;
 
 dayjs.locale(dayjsZhCn);
 dayjs.extend(relativeTime);

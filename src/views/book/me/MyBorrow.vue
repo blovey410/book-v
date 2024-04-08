@@ -10,14 +10,28 @@
 					:hit="true"
 					size="large"
 					style="font-size: larger; margin: 2px 0"
-					>{{ item.user }}</el-tag
-				>
+					>{{ item.user }}
+				</el-tag>
+				<el-tag
+					v-if="item.status === 1"
+					:hit="true"
+					size="large"
+					style="font-size: larger; margin: 2px 0"
+					>归还天数：{{ item.residue }} 天
+				</el-tag>
+				<el-tag type="danger"
+					v-else
+					:hit="true"
+					size="large"
+					style="font-size: larger; margin: 2px 0"
+					>{{ item.status }}
+				</el-tag>
 				<el-button
 					type="primary"
 					v-if="item.status === '未归还'"
 					@click="returnBook(item.bookId)"
-					>归还</el-button
-				>
+					>归还
+				</el-button>
 			</div>
 		</div>
 	</div>
@@ -29,6 +43,7 @@ import { useUserStore } from '@/stores/userStores';
 import { getBorrowById, returnData } from '@/api/borrow';
 import BookCard from '@/components/bookCard/BookCard.vue';
 import { useRouter } from 'vue-router';
+
 const tableData = reactive({
 	records: [],
 });
