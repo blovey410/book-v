@@ -37,6 +37,7 @@ const form = reactive({
 	telephone: '',
 	email: '',
 	role: 2,
+	status: 1,
 });
 const formRef = ref();
 const rules = {

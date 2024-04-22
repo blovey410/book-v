@@ -22,7 +22,7 @@ export function getBorrowById(userId, type) {
 }
 
 export function delData(data) {
-	return get(`${path}/delete`, data);
+	return deleted(`${path}/delete`, data);
 }
 
 export function editData(data) {
