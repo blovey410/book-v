@@ -37,11 +37,14 @@
 			v-model="editDialog"
 			title="修改"
 			width="30%"
-			:before-close="resetForm"
-			:rules="rules"
-			ref="formRef"
 		>
-			<el-form :model="formData" label-width="120px">
+			<el-form
+				:model="formData"
+				label-width="120px"
+				:before-close="resetForm"
+				:rules="rules"
+				ref="formRef"
+			>
 				<el-form-item label="分类名称" prop="name">
 					<el-input v-model="formData.name" />
 				</el-form-item>

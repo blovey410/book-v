@@ -41,6 +41,7 @@ const bookId = ref('');
 const loadData = async () => {
 	const res = await getByTagId({
 		tagId:query.tagId,
+		more: false
 	});
 	if (res.code === 200) {
 		list.value = res.data;
