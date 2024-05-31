@@ -1,6 +1,4 @@
 import { createApp } from 'vue';
-import { createPinia } from 'pinia';
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 
 import './index.css';
 
@@ -16,6 +14,7 @@ import './assets/base.css'
 import dayjs from 'dayjs';
 import dayjsZhCn from 'dayjs/locale/zh-cn';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { pinia } from '@/pinia';
 
 const app = createApp(App);
 app.use(ElementPlus, {
@@ -23,11 +22,7 @@ app.use(ElementPlus, {
 });
 
 app.use(router);
-
-const pinia = createPinia();
-pinia.use(piniaPluginPersistedstate);
 app.use(pinia);
-
 
 dayjs.locale(dayjsZhCn);
 dayjs.extend(relativeTime);

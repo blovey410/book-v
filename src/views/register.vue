@@ -6,10 +6,12 @@
 				<el-input v-model="form.username" />
 			</el-form-item>
 			<el-form-item label="密码" prop="password">
-				<el-input type="password" v-model="form.password" /> </el-form-item
-			><el-form-item label="性别" prop="sex">
-				<el-input type="text" v-model="form.sex" /> </el-form-item
-			><el-form-item label="电话" prop="telephone">
+				<el-input type="password" v-model="form.password" />
+			</el-form-item>
+			<el-form-item label="性别" prop="sex">
+				<el-input type="text" v-model="form.sex" />
+			</el-form-item>
+			<el-form-item label="电话" prop="telephone">
 				<el-input type="text" v-model="form.telephone" />
 			</el-form-item>
 			<el-form-item label="邮箱" prop="email">
@@ -24,10 +26,10 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus';
-import { useRouter } from 'vue-router';
-import { addUser } from '@/api/user';
-import { reactive, ref } from 'vue';
+import {ElMessage} from 'element-plus';
+import {useRouter} from 'vue-router';
+import {addUser} from '@/api/user';
+import {reactive, ref} from 'vue';
 
 const router = useRouter();
 const form = reactive({
@@ -41,11 +43,24 @@ const form = reactive({
 });
 const formRef = ref();
 const rules = {
-	username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-	password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-	sex: [{ required: true, message: '请选择性别', trigger: 'blur' }],
-	telephone: [{ required: true, message: '请输入电话', trigger: 'blur' }],
-	email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+	username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+	password: [{required: true, message: '请输入密码', trigger: 'blur'}, {
+		min: 6,
+		max: 20,
+		message: '密码长度在6-12位',
+		trigger: ['blur','change']
+	}, {
+		pattern: /^(?=.*[a-zA-Z])(?=.*\d).{6,12}$/,
+		message: '密码只能包含字母、数字、下划线',
+		trigger: ['blur','change']
+	}],
+	sex: [{required: true, message: '请选择性别', trigger: 'blur'}],
+	telephone: [{required: true, message: '请输入电话', trigger: 'blur'}, {
+		pattern: /^1[3456789]\d{9}$/,
+		message: '请输入正确的电话',
+		trigger: ['blur','change']
+	}],
+	email: [{required: true, message: '请输入邮箱', trigger: 'blur'}],
 };
 
 function toRegister(formEl) {

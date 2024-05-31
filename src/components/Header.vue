@@ -1,14 +1,12 @@
 <script setup>
-import { ref } from 'vue';
-import { RouterLink } from 'vue-router';
-import { ArrowDown } from '@element-plus/icons-vue';
+import { useUserStore } from '@/stores/userStores';
+import { useRouter } from 'vue-router';
 
-const isShow = ref(true);
-const openMenu = () => {
-	isShow.value = false;
-};
-const closeMenu = () => {
-	isShow.value = true;
+const userStore = useUserStore();
+const router = useRouter();
+const logout = () => {
+	userStore.clear();
+	router.push('/login');
 };
 </script>
 
@@ -16,7 +14,6 @@ const closeMenu = () => {
 	<el-menu
 		background-color="#a22b2b"
 		text-color="#fff"
-		active-text-color="#ffd04b"
 		mode="horizontal"
 		:router="true"
 	>
@@ -26,9 +23,12 @@ const closeMenu = () => {
 		<el-menu-item index="/aboutMe">本馆介绍</el-menu-item>
 		<el-menu-item index="/proclamation">公告</el-menu-item>
 		<el-sub-menu index="6">
-			<template #title> <div style="font-size: 20px">我的</div></template>
+			<template #title>
+				<div style="font-size: 20px">我的</div>
+			</template>
 			<el-menu-item index="/me">个人资料</el-menu-item>
 			<el-menu-item index="/login">管理员管理</el-menu-item>
+			<div class="span" @click="logout">退出登录</div>
 		</el-sub-menu>
 	</el-menu>
 </template>
@@ -38,7 +38,18 @@ const closeMenu = () => {
 	padding: 0 10%;
 	justify-content: space-evenly;
 }
+
 .el-menu-item {
 	font-size: 24px;
+}
+
+.span {
+	cursor: pointer;
+	font-size: 24px;
+	color: #fff;
+	padding: 10px;
+}
+.span:hover{
+	background-color: #822222;
 }
 </style>

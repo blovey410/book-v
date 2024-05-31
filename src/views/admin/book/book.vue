@@ -2,7 +2,7 @@
 	<div>
 		<div>
 			<el-input
-				placeholder="请输入仓库名称"
+				placeholder="请输入图书名称"
 				v-model="tableData.search"
 				style="width: 240px; margin-right: 10px"
 			/>

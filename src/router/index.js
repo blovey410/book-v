@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { useUserStore } from '@/stores/userStores';
+import { pinia } from '@/pinia';
 
+const userStore = useUserStore(pinia);
+const user = userStore.getUserInfo();
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
@@ -34,11 +37,23 @@ const router = createRouter({
 					path: '/me',
 					name: 'me',
 					component: () => import('@/views/book/me/me.vue'),
+					// beforeEnter: (to, from, next)=> {
+					// 	if (user){
+					// 		ElMessage.error('请先登录');
+					// 		next({ path: from.path });
+					// 	}
+					// },
 				},
 				{
 					path: '/aboutMe',
 					name: 'aboutMe',
 					component: () => import('@/views/book/about-me/aboutMe.vue'),
+					// beforeEnter: (to, from, next) => {
+					// 	if (user){
+					// 		ElMessage.error('请先登录');
+					// 		next({ path: from.path });
+					// 	}
+					// },
 				},
 				{
 					path: '/proclamation',
@@ -59,7 +74,7 @@ const router = createRouter({
 					path: '/more',
 					name: 'more',
 					component: () => import('@/views/book/tags/more.vue'),
-				}
+				},
 			],
 		},
 		//后台模块
@@ -111,6 +126,16 @@ const router = createRouter({
 						import('@/views/admin/announcement/announcement.vue'),
 				},
 			],
+			// beforeEnter: (to, from, next) => {
+			// 	if (to.path.includes('/admin')) {
+			// 		if (user.role === '1') {
+			// 			next();
+			// 		} else {
+			// 			ElMessage.error('无权访问后台系统');
+			// 			next({ path: '/login' });
+			// 		}
+			// 	}
+			// },
 		},
 		{
 			path: '/login',
@@ -122,24 +147,4 @@ const router = createRouter({
 		},
 	],
 });
-
-// const whitelisting = ["/login", "/register"];
-// router.beforeEach((to, from, next) => {
-// 	const userStore = useUserStore();
-// 	if (userStore.getToken() && to.path.includes("/admin")) {
-// 		const user = userStore.getUserInfo();
-// 		if (user.role === 1) {
-// 			next();
-// 		} else {
-// 			ElMessage.error("无权访问后台系统");
-// 			next({ path: "/home" });
-// 		}
-// 	}
-// 	if (!whitelisting.includes(to.path) && !userStore.getToken()) {
-// 		next({ path: "/login" });
-// 	} else {
-// 		next();
-// 	}
-// });
-
 export default router;

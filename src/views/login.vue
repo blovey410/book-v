@@ -86,7 +86,7 @@ function toLogin(formEl) {
 	background-color: #fff;
 	border-radius: 8px;
 	box-shadow: 0 0 10px #ccc;
-	opacity: 0.7;
+	opacity: 0.9;
 }
 
 .login-form h2 {

@@ -37,7 +37,13 @@ export function deleted(url, params) {
 baseURL.interceptors.request.use(
 	function (config) {
 		// 在发送请求之前做些什么
-
+		// if(config.url.includes("borrow/borrow")){
+		// 	const userStore = useUserStore();
+		// 	if (userStore.getUserInfo()){
+		// 		ElMessage.error('请先登录');
+		// 		return Promise.reject('请先登录');
+		// 	};
+		// }
 		return config;
 	},
 	function (error) {
